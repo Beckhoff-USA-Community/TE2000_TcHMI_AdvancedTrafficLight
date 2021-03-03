@@ -1,0 +1,72 @@
+﻿/* General theme independed control css. */
+
+.TcHmi_Controls_ContextMenu_ContextMenuControl {
+    overflow: hidden;
+}
+
+.TcHmi_Controls_ContextMenu_ContextMenuControl-Template {
+    width: 100%;
+    height: 100%;
+}
+.context-menu-nav {
+    display: inline-block;
+    position: absolute;
+    z-index: 10;
+    padding: 12px 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border: solid 1px #dfdfdf;
+    box-shadow: 1px 1px 2px #cfcfcf;
+}
+
+.context-menu--active {
+    display: inline-block
+}
+
+.context-menu__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.context-menu__item {
+    display: block;
+    margin-bottom: 4px;
+}
+
+    .context-menu__item:last-child {
+        margin-bottom: 0;
+    }
+
+.context-menu__link {
+    display: block;
+    padding: 4px 12px;
+    color: #0066aa;
+    text-decoration: none;
+}
+
+    .context-menu__link:hover {
+        color: #fff;
+        background-color: #0066aa;
+    }
+
+
+/* If the main use for this control is interaction
+    uncomment the following lines to give user feedback:
+    This overlays the whole control with a white color
+    and change the mouse cursor */
+
+/*
+.TcHmi_Controls_$default_namespace$_ContextMenu.TcHmi_Controls_System_TcHmiControl-operate-disallowed::after {
+    content: '';
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 100;
+    cursor: not-allowed;
+}
+*/

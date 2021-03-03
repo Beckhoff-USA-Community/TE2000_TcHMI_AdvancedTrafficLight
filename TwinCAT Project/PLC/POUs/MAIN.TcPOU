@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="MAIN" Id="{21b87483-29ec-4e1e-868f-12be3b6a0f39}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	
+trafficLight01 	: ST_TrafficLight;
+
+	// Users can read symbol pragmas within TcHmi and create functions to act on them
+	// These are user defined pragams, as such users must create their own functions to parse them within TcHmi
+{attribute 'Access' := 'Admin'}
+trafficLight02 	: ST_TrafficLight;
+
+{attribute 'Theme' := 'Dark'}
+trafficLight03 	: ST_TrafficLight;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

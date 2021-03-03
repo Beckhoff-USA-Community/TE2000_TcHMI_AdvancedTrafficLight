@@ -1,0 +1,14 @@
+{
+    "USERS": {
+        "__SystemAdministrator": {
+            "ENABLED": true,
+            "PASSWORD": "28e9c6e46ce48b284b3054aaf61d0064e8d0faa4ead49bd916a687650ab5ada1",
+            "SALT": "YhnHuXh5khbiE5XM2jtzIfNAwp8WKtpAt0mmtQRqCNz78ZkNnmCA7sWHsoUDjGFGax2YyfVzxOwDM0/3ujTIAA=="
+        },
+        "__SystemGuest": {
+            "ENABLED": true,
+            "PASSWORD": "",
+            "SALT": ""
+        }
+    }
+}

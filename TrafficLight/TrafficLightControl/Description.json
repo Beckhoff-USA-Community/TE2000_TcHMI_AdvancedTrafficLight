@@ -1,0 +1,223 @@
+﻿{
+  "$schema": "../.hmiframework/Schema/ControlDescription.Schema.json",
+  "apiVersion": 1,
+  "name": "TrafficLightControl",
+  "namespace": "TcHmi.Controls.TrafficLight",
+  "displayName": "TrafficLightControl",
+  "version": {
+    "full": "1.0.6.0",
+    "major": 1,
+    "minor": 0,
+    "revision": 6,
+    "build": 0
+  },
+  "visible": true,
+  "themeable": "Standard",
+  "base": "TcHmi.Controls.System.TcHmiControl",
+  "description": "This description text will be used as a Tooltip in Visual Studio.",
+  "properties": {
+    "containerControl": false,
+    "geometry": {
+      "width": 150,
+      "height": 150
+    }
+  },
+  "template": "Template.html",
+  "icons": [
+    {
+      "name": "Icons/16x16.png",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "name": "Icons/24x24.png",
+      "width": 24,
+      "height": 24
+    },
+    {
+      "name": "Icons/32x32.png",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "name": "Icons/64x64.png",
+      "width": 64,
+      "height": 64
+    }
+  ],
+  "dependencyFiles": [
+    {
+      "name": "TrafficLightControl.js",
+      "type": "JavaScript",
+      "description": "Contains all the main logic."
+    },
+    {
+      "name": "Style.css",
+      "type": "Stylesheet",
+      "description": "Theme independent style"
+    }
+  ],
+  "themes": {
+    "Base": {
+      "resources": [
+        {
+          "name": "Themes/Base/Style.css",
+          "type": "Stylesheet",
+          "description": "Theme dependent style"
+        }
+      ]
+    }
+  },
+  "attributes": [
+    {
+      "name": "data-tchmi-red-oncolor",
+      "propertyName": "RedOnColor",
+      "propertySetterName": "setRedOnColor",
+      "propertyGetterName": "getRedOnColor",
+      "displayName": "RedOnColor",
+      "visible": true,
+      "themeable": "Standard",
+      "displayPriority": 40,
+      "type": "tchmi:framework#/definitions/SolidColor",
+      "category": "Traffic Light",
+      "description": "Color for the red light of the traffic light",
+      "readOnly": false,
+      "bindable": true,
+      "heritable": true,
+      "defaultValue": null,
+      "defaultValueInternal": null
+    },
+    {
+      "name": "data-tchmi-red-offcolor",
+      "propertyName": "RedOffColor",
+      "propertySetterName": "setRedOffColor",
+      "propertyGetterName": "getRedOffColor",
+      "displayName": "RedOffColor",
+      "visible": true,
+      "themeable": "Standard",
+      "displayPriority": 40,
+      "type": "tchmi:framework#/definitions/SolidColor",
+      "category": "Traffic Light",
+      "description": "Color for the red light of the traffic light",
+      "readOnly": false,
+      "bindable": true,
+      "heritable": true,
+      "defaultValue": { "color": "rgba(134, 134, 134, 1)" },
+      "defaultValueInternal": { "color": "rgba(134, 134, 134, 1)" }
+    },
+    {
+      "name": "data-tchmi-yellow-oncolor",
+      "propertyName": "YellowOnColor",
+      "propertySetterName": "setYellowOnColor",
+      "propertyGetterName": "getYellowOnColor",
+      "displayName": "YellowOnColor",
+      "visible": true,
+      "themeable": "Standard",
+      "displayPriority": 40,
+      "type": "tchmi:framework#/definitions/SolidColor",
+      "category": "Traffic Light",
+      "description": "Color for the yellow light of the traffic light",
+      "readOnly": false,
+      "bindable": true,
+      "heritable": true,
+      "defaultValue": null,
+      "defaultValueInternal": null
+    },
+    {
+      "name": "data-tchmi-yellow-offcolor",
+      "propertyName": "YellowOffColor",
+      "propertySetterName": "setYellowOffColor",
+      "propertyGetterName": "getYellowOffColor",
+      "displayName": "YellowOffColor",
+      "visible": true,
+      "themeable": "Standard",
+      "displayPriority": 40,
+      "type": "tchmi:framework#/definitions/SolidColor",
+      "category": "Traffic Light",
+      "description": "Color for the yellow light of the traffic light",
+      "readOnly": false,
+      "bindable": true,
+      "heritable": true,
+      "defaultValue": { "color": "rgba(134, 134, 134, 1)" },
+      "defaultValueInternal": { "color": "rgba(134, 134, 134, 1)" }
+    },
+    {
+      "name": "data-tchmi-green-oncolor",
+      "propertyName": "GreenOnColor",
+      "propertySetterName": "setGreenOnColor",
+      "propertyGetterName": "getGreenOnColor",
+      "displayName": "GreenOnColor",
+      "visible": true,
+      "themeable": "Standard",
+      "displayPriority": 40,
+      "type": "tchmi:framework#/definitions/SolidColor",
+      "category": "Traffic Light",
+      "description": "Color for the green light of the traffic light",
+      "readOnly": false,
+      "bindable": true,
+      "heritable": true,
+      "defaultValue": null,
+      "defaultValueInternal": null
+    },
+    {
+      "name": "data-tchmi-green-offcolor",
+      "propertyName": "GreenOffColor",
+      "propertySetterName": "setGreenOffColor",
+      "propertyGetterName": "getGreenOffColor",
+      "displayName": "GreenOffColor",
+      "visible": true,
+      "themeable": "Standard",
+      "displayPriority": 40,
+      "type": "tchmi:framework#/definitions/SolidColor",
+      "category": "Traffic Light",
+      "description": "Color for the green light of the traffic light",
+      "readOnly": false,
+      "bindable": true,
+      "heritable": true,
+      "defaultValue": { "color": "rgba(134, 134, 134, 1)" },
+      "defaultValueInternal": { "color": "rgba(134, 134, 134, 1)" }
+    },
+    {
+      "name": "data-tchmi-lightsSymbol",
+      "propertyName": "LightsSymbol",
+      "propertySetterName": "setLightsSymbol",
+      "propertyGetterName": "getLightsSymbol",
+      "displayName": "Lights Symbol",
+      "visible": true,
+      "themeable": "Standard",
+      "displayPriority": 40,
+      "type": "tchmi:framework#/definitions/TrafficLight_Lights",
+      "category": "Traffic Light",
+      "description": "Server Symbol for tchmi:server#/definitions/ST_TrafficLight",
+      "readOnly": false,
+      "bindable": true,
+      "heritable": true,
+      "defaultValue": null,
+      "defaultValueInternal": null
+    }
+  ],
+  "attributeCategories": [
+    {
+      "name": "Traffic Light",
+      "displayPriority": 100,
+      "defaultCollapsed": false,
+      "description": ""
+    }
+  ],
+  "functions": [],
+  "events": [
+    {
+      "name": ".onError",
+      "displayName": ".onError",
+      "category": "Control Events",
+      "description": "",
+      "heritable": true,
+      "visible": true
+    }
+  ],
+  "dataTypes": [
+    {
+      "schema": "Schema/Types.Schema.json"
+    }
+  ]
+}

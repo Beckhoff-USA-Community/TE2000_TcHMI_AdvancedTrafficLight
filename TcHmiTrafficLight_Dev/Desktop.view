@@ -1,0 +1,35 @@
+﻿<div id="Desktop" data-tchmi-type="TcHmi.Controls.System.TcHmiView" data-tchmi-top="0" data-tchmi-left="0" data-tchmi-width-mode="Content" data-tchmi-min-width="100" data-tchmi-min-width-unit="%" data-tchmi-height-mode="Content" data-tchmi-min-height="100" data-tchmi-min-height-unit="%" data-tchmi-left-unit="px" data-tchmi-top-unit="px" data-tchmi-width-unit="px" data-tchmi-height-unit="px" data-tchmi-creator-viewport-width="1920" data-tchmi-creator-viewport-height="1080">
+  <div id="ViewDesktopBeckhoffLogo" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiImage" data-tchmi-src="Images/Beckhoff_Logo.svg" data-tchmi-left="20" data-tchmi-top="20" data-tchmi-width="194" data-tchmi-height="57" data-tchmi-left-unit="px" data-tchmi-top-unit="px" data-tchmi-width-unit="px" data-tchmi-height-unit="px">
+
+  
+
+</div>
+<div id="TcHmi_Controls_TrafficLight_TrafficLightControl" data-tchmi-type="TcHmi.Controls.TrafficLight.TrafficLightControl" "rgba(134,=" " " "rgba(134,=" " }" data-tchmi-height="180" data-tchmi-height-unit="px" data-tchmi-left="284" data-tchmi-left-unit="px" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="180" data-tchmi-width-unit="px">
+
+
+<script data-tchmi-target-attribute="data-tchmi-red-oncolor" type="application/json">
+{
+  "color": "rgba(255, 0, 0, 1)"
+}
+</script>
+</div>
+
+<div id="TcHmi_Controls_TrafficLight_TrafficLightControl_1" data-tchmi-type="TcHmi.Controls.TrafficLight.TrafficLightControl" "rgba(134,=" " " "rgba(134,=" " }" data-tchmi-height="180" data-tchmi-height-unit="px" data-tchmi-left="284" data-tchmi-left-unit="px" data-tchmi-top="324" data-tchmi-top-unit="px" data-tchmi-width="180" data-tchmi-width-unit="px">
+
+
+<script data-tchmi-target-attribute="data-tchmi-red-oncolor" type="application/json">
+{
+  "color": "rgba(255, 74, 74, 1)"
+}
+</script>
+</div>
+
+<div id="TcHmiTextblock" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="400" data-tchmi-height-unit="px" data-tchmi-left="20" data-tchmi-left-unit="px" data-tchmi-text="The framework control &quot;TrafficLightControl&quot; has only a traffic light symbol attribute, and on/off colors. The control also has context menu listeners. \n \nRight-clicking the traffic light will popup a context menu to show all possible ADS symbols it can be bound to. If it currently is bound, it will display in bold the address. \n \nThe CodeBehind file &quot;CacheAdsSymbols&quot; will parse all symbols from the MAIN POU and list any ST_TrafficLight DUTs as possible bindings. \n \nThis displays all symbols, even if they are not mapped. If the symbol is not mapped, selecting the target address to bind to will map it within TcHmi." data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="254" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-font-size="14">
+
+</div>
+
+<div id="TcHmiTextblock_1" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="114" data-tchmi-height-unit="px" data-tchmi-left="20" data-tchmi-left-unit="px" data-tchmi-text="The traffic light control also include touch logic for tapping the lights on and off. Within the logic is also a touch lock that prevents accidental fast touching" data-tchmi-top="514" data-tchmi-top-unit="px" data-tchmi-width="254" data-tchmi-width-unit="px" data-tchmi-word-wrap="True">
+
+</div>
+
+</div>

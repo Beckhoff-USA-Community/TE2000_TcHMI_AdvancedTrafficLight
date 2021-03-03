@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <DUT Name="ST_TrafficLight" Id="{9df1dfee-cf03-4fad-a4d4-36f8c049af89}">
+    <Declaration><![CDATA[TYPE ST_TrafficLight :
+STRUCT
+	
+RedLight 	: BOOL := FALSE;
+YellowLight : BOOL := FALSE;
+GreenLight 	: BOOL := FALSE;
+
+
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

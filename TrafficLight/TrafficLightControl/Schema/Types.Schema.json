@@ -1,0 +1,23 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "definitions": {
+    "TcHmi.Controls.TrafficLight.TrafficLightControl": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+      "frameworkControlType": "TrafficLightControl",
+      "frameworkControlNamespace": "TcHmi.Controls.TrafficLight"
+    },
+    "TrafficLight_Lights": {
+      "allOf": [
+        {
+          "$ref": "tchmi:framework#/definitions/Symbol"
+        },
+        {
+          "frameworkSymbolSubType": {
+            "$ref": "tchmi:server#/definitions/PLC1.ST_TrafficLight"
+          }
+        }
+      ]
+    }
+  }
+}
