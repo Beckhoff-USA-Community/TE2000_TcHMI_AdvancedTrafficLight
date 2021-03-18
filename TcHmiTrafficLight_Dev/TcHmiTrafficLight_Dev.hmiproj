@@ -26,7 +26,7 @@
     <HmiCommunicationRouterPort>10105</HmiCommunicationRouterPort>
     <HmiCommunicationServerAuthPort>13002</HmiCommunicationServerAuthPort>
     <HmiInitial>1.12.734.0</HmiInitial>
-    <HmiRecent>1.12.744.2</HmiRecent>
+    <HmiRecent>1.12.744.4</HmiRecent>
     <HmiServerNodeAdvancedView>False</HmiServerNodeAdvancedView>
     <TcHmi_ContextMenu_IncludedInSolution>True</TcHmi_ContextMenu_IncludedInSolution>
     <TcHmi_TrafficLight_IncludedInSolution>True</TcHmi_TrafficLight_IncludedInSolution>
@@ -148,6 +148,9 @@
     <Content Include="Images\logo.gif">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="packages.config">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Server\ADS\ADS.Config.default.json">
       <SubType>Content</SubType>
     </Content>
@@ -201,10 +204,6 @@
       <SubType>Content</SubType>
       <Visible>true</Visible>
       <DependentUpon>tsconfig.tpl.json</DependentUpon>
-    </Content>
-    <Content Include="packages.config">
-      <SubType>Content</SubType>
-      <Visible>true</Visible>
     </Content>
     <Content Include="packages.xsd">
       <SubType>Content</SubType>

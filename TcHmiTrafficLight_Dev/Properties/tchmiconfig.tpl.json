@@ -86,6 +86,9 @@
       "defaultHeight": 600
     }
   },
+  "binding": {
+    "symbolError": "Ignore"
+  },
   "packages": [
     {
       "name": "Beckhoff.TwinCAT.HMI.Controls",
