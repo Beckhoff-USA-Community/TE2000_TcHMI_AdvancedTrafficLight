@@ -41,6 +41,8 @@ declare module TcHmi {
                 private __onTouchEndOrCancelHandler;
                 private __onClickHandler;
                 private __contextMenu;
+                private mouseEvtOptions;
+                private touchEvtOptions;
                 /**
                   * If raised, the control object exists in control cache and constructor of each inheritation level was called.
                   * Call attribute processor functions here to initialize default values!

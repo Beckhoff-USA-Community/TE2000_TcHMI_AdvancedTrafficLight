@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<package>
+﻿<?xml version="1.0"?>
+<package xmlns="">
   <metadata>
     <id>ContextMenu</id>
     <version>1.0.9</version>
@@ -8,16 +8,14 @@
     <title>ContextMenu</title>
     <owners>Beckhoff-USA</owners>
     <projectUrl>https://github.com/Beckhoff-USA-Community</projectUrl>
-	<license type="file">License.txt</license>
-    <icon>images/logo.png</icon>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <releaseNotes>Sample code depends on 1.12.744.4</releaseNotes>
     <copyright>Copyright 2021</copyright>
     <tags>TwinCAT HMI</tags>
+    <license type="file">License.txt</license>
+    <icon>images/logo.png</icon>
     <dependencies>
-      <group targetFramework="native1.12-tchmi">
-      <dependency id="Beckhoff.TwinCAT.HMI.Framework" version="12.744.4" />
-      </group>
+      <group targetFramework="native1.12-tchmi" />
     </dependencies>
   </metadata>
   <files>

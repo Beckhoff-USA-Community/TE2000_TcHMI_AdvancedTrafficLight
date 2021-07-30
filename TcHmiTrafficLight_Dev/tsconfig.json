@@ -28,7 +28,7 @@
     "bin/"
   ],
   "include": [
-    "C:/Users/ZacharyD/source/repos/Beckhoff-USA-Community/TE2000_TcHMI_AdvancedTrafficLight/Packages/Beckhoff.TwinCAT.HMI.Framework.12.744.4/runtimes/native1.12-tchmi/TcHmi.d.ts"
+    "C:/Users/ZacharyD/source/repos/TE2000_TcHMI_AdvancedTrafficLight/Packages/Beckhoff.TwinCAT.HMI.Framework.12.746.3/runtimes/native1.12-tchmi/TcHmi.d.ts"
   ],
   "files": [
     "CodeBehind/CacheAdsSymbols.ts"

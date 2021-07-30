@@ -95,7 +95,16 @@ module TcHmi {
                 private __onClickHandler                    = this.__onClick();
                 private __contextMenu                       : TcHmi.Controls.ContextMenu.ContextMenuControl | null = null;
 
+                
+                private mouseEvtOptions = {
+                passive: true,
+                capture: false // False, we handle the event first at the element directly triggered, not first through <html>, then <body>...
+            };
 
+                private touchEvtOptions = {
+                passive: false, // False, because we will use e.preventDefault() to cancel mouse handling after touch
+                capture: false
+            };
 
 
 
@@ -128,6 +137,24 @@ module TcHmi {
                  */
                 public __init() {
                     super.__init();
+
+                    // Register listeners
+                    // Context menu is a global event - we only attach it when the traffic light is attached
+                    // HTML Native
+                    // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+
+                    // EventListener options, hands on
+                    // https://javascript.info/bubbling-and-capturing
+
+
+                    // List of Event Types like 'click'
+                    // https://developer.mozilla.org/en-US/docs/Web/Events
+
+                    this.__elementTrafficLightSvg[0].addEventListener("touchstart", this.__onTouchStartHandler, this.touchEvtOptions);
+                    this.__elementTrafficLightSvg[0].addEventListener("touchend", this.__onTouchEndOrCancelHandler, this.touchEvtOptions);
+                    this.__elementTrafficLightSvg[0].addEventListener("touchcancel", this.__onTouchEndOrCancelHandler, this.touchEvtOptions);
+                    this.__elementTrafficLightSvg[0].addEventListener("click", this.__onClickHandler, this.mouseEvtOptions);
+
                 }
 
                 /**
@@ -142,31 +169,11 @@ module TcHmi {
                      */
 
 
-                    // Register listeners
-                    // HTML Native
-                    // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 
-                    // EventListener options, hands on
-                    // https://javascript.info/bubbling-and-capturing
 
-                    let mouseEvtOptions = {
-                        passive: true,
-                        capture: false // False, we handle the event first at the element directly triggered, not first through <html>, then <body>...
-                    };
 
-                    let touchEvtOptions = {
-                        passive: false, // False, because we will use e.preventDefault() to cancel mouse handling after touch
-                        capture: false
-                    };
-
-                    // List of Event Types like 'click'
-                    // https://developer.mozilla.org/en-US/docs/Web/Events
-
-                    this.__elementTrafficLightSvg[0].addEventListener("touchstart", this.__onTouchStartHandler, touchEvtOptions);
-                    this.__elementTrafficLightSvg[0].addEventListener("touchend", this.__onTouchEndOrCancelHandler, touchEvtOptions);
-                    this.__elementTrafficLightSvg[0].addEventListener("touchcancel", this.__onTouchEndOrCancelHandler, touchEvtOptions);
-                    this.__elementTrafficLightSvg[0].addEventListener("click", this.__onClickHandler, mouseEvtOptions);
-                    this.__elementTemplateRoot[0].addEventListener("contextmenu", this.__onContextMenuHandler, touchEvtOptions);
+                    // Context menu is a global event, so we only need this when the traffic light is attached to the DOM
+                    this.__elementTemplateRoot[0].addEventListener("contextmenu", this.__onContextMenuHandler, this.touchEvtOptions);
 
 
                     // If the default value of the traffic light class is a symbol, the valid symbol needs
@@ -184,11 +191,14 @@ module TcHmi {
                 */
                 public __detach() {
                     super.__detach();
-
+                    
                     /**
                      * Disable everything which is not needed while the control is not part of the active dom.
                      * No need to listen to events for example!
                      */
+
+                    // Even if traffic light is preloaded, when not attached to the DOM the contextmenu listener is not needed
+                    this.__elementTemplateRoot[0].removeEventListener("contextmenu", this.__onContextMenuHandler, this.touchEvtOptions);
                 }
 
                 /**
@@ -202,6 +212,13 @@ module TcHmi {
                     if (this.__keepAlive) {
                         return;
                     }
+
+
+                    this.__elementTrafficLightSvg[0].removeEventListener("touchstart", this.__onTouchStartHandler, this.touchEvtOptions);
+                    this.__elementTrafficLightSvg[0].removeEventListener("touchend", this.__onTouchEndOrCancelHandler, this.touchEvtOptions);
+                    this.__elementTrafficLightSvg[0].removeEventListener("touchcancel", this.__onTouchEndOrCancelHandler, this.touchEvtOptions);
+                    this.__elementTrafficLightSvg[0].removeEventListener("click", this.__onClickHandler, this.mouseEvtOptions);
+
 
                     super.destroy();
 
@@ -491,6 +508,9 @@ module TcHmi {
                         devLog('Context menu event: ', event);
                         event.preventDefault();
                         console.log('create context menu');
+
+
+
                         // Handles if ContextMenu is already destroyed
                         if (_this.__contextMenu && !_this.__contextMenu.getIsDestroyed()) {
                             console.log('create context menu')
@@ -530,14 +550,24 @@ module TcHmi {
 
                             // Parses out the internal cached symbol of all ADS symbols of ST_TrafficLight type
                         let __AdsList_trafficLightTypes: Array<string> = TcHmi.Symbol.readEx('%i%AdsList_TrafficLightTypes%/i%') as Array<string>;
-                        let lightsSymbolName: string;
+                        let lightsSymbolName: string | undefined;
+
+
                             // If the TL control is bound already, retrieve the symbol name
                         if (_this.__lightsSymbol) {
-                            lightsSymbolName = _this.__lightsSymbol.getExpression().getName();
+                            lightsSymbolName =  _this.__lightsSymbol.getExpression().getName();
                         }
                         else {
                             lightsSymbolName = '';
                         }
+
+                        console.log("List of traffic light type symbols: ", __AdsList_trafficLightTypes);
+
+                        if (__AdsList_trafficLightTypes.length == 0) {
+                            _this.__contextMenu!.__elementList.append(`<li class="context-menu__item">
+                                <a href="#" style = "font-weight:bold;" class="context-menu__link" data-action="error" data-caller=${_this.getId()}>Error: No traffic light types detected.</a>
+                            </li>`)
+                        };
 
                         __AdsList_trafficLightTypes.forEach(function (element, index, array) {
                                 console.log(element);

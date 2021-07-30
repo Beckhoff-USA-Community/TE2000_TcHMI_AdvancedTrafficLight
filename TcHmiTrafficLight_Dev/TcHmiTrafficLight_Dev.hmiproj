@@ -26,7 +26,7 @@
     <HmiCommunicationRouterPort>10105</HmiCommunicationRouterPort>
     <HmiCommunicationServerAuthPort>13002</HmiCommunicationServerAuthPort>
     <HmiInitial>1.12.734.0</HmiInitial>
-    <HmiRecent>1.12.744.4</HmiRecent>
+    <HmiRecent>1.12.746.3</HmiRecent>
     <HmiServerNodeAdvancedView>False</HmiServerNodeAdvancedView>
     <TcHmi_ContextMenu_IncludedInSolution>True</TcHmi_ContextMenu_IncludedInSolution>
     <TcHmi_TrafficLight_IncludedInSolution>True</TcHmi_TrafficLight_IncludedInSolution>
