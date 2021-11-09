@@ -1,11 +1,6 @@
 declare module TcHmi {
     module Controls {
         module TrafficLight {
-            class Lights {
-                RedLight: boolean;
-                YellowLight: boolean;
-                GreenLight: boolean;
-            }
             class TrafficLightControl extends TcHmi.Controls.System.TcHmiControl {
                 /**
                  * @description Constructor of the control
@@ -33,6 +28,7 @@ declare module TcHmi {
                 private __touches;
                 private __lightsSymbol;
                 private __destroyLightsSymbolWatch;
+                private __errorOverlay;
                 private __redLightExp;
                 private __yellowLightExp;
                 private __greenLightExp;

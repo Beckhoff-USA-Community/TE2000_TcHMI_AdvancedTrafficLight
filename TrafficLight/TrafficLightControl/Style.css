@@ -9,7 +9,32 @@
     height: 100%;
 }
 
-    .TcHmi_Controls_TrafficLight_TrafficLightControl-Template .traffic-light-svg {
+
+
+
+.TcHmi_Controls_TrafficLight_TrafficLightControl_errorOverlay_opaque {
+    background-color:black;
+    color:white;
+    padding:5px;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+
+.TcHmi_Controls_TrafficLight_TrafficLightControl_errorOverlay_transparent {
+    background-color: rgba(255, 0, 0, 0.4);
+    color: white;
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+}
+
+.TcHmi_Controls_TrafficLight_TrafficLightControl-Template .traffic-light-svg {
         width: 100%;
         height: 100%;
     }

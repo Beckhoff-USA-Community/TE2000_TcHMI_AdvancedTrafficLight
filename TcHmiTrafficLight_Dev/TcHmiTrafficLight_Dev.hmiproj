@@ -23,10 +23,10 @@
     <EnableTypeScript>true</EnableTypeScript>
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
     <Name>TcHmiTrafficLight_Dev</Name>
-    <HmiCommunicationRouterPort>10105</HmiCommunicationRouterPort>
+    <HmiCommunicationRouterPort>10107</HmiCommunicationRouterPort>
     <HmiCommunicationServerAuthPort>13002</HmiCommunicationServerAuthPort>
     <HmiInitial>1.12.734.0</HmiInitial>
-    <HmiRecent>1.12.746.3</HmiRecent>
+    <HmiRecent>1.12.750.1</HmiRecent>
     <HmiServerNodeAdvancedView>False</HmiServerNodeAdvancedView>
     <TcHmi_ContextMenu_IncludedInSolution>True</TcHmi_ContextMenu_IncludedInSolution>
     <TcHmi_TrafficLight_IncludedInSolution>True</TcHmi_TrafficLight_IncludedInSolution>
@@ -66,8 +66,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>TwinCAT HMI</PlatformTarget>
-    <TypeScriptToolsVersion>3.9</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>4.3</TypeScriptToolsVersion>
     <DefaultNamespace>TcHmiTrafficLight_Dev</DefaultNamespace>
+    <TypeScriptBuildMode>False</TypeScriptBuildMode>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(TypeScriptSdkDir)\$(TypeScriptToolsVersion)\build\Microsoft.TypeScript.targets" Condition="Exists('$(TypeScriptSdkDir)\$(TypeScriptToolsVersion)\build\Microsoft.TypeScript.targets')" />
@@ -134,7 +135,9 @@
     <Folder Include="Server\TcHmiUserManagement\" />
     <Folder Include="Themes" />
     <Folder Include="Themes\Base\" />
-    <Folder Include="Server" />
+    <Folder Include="Server">
+      <WorkingDirectory>TcHmiTrafficLight_Dev</WorkingDirectory>
+    </Folder>
     <Folder Include="Properties" />
     <Content Include=".eslintrc.json">
       <Visible>false</Visible>
@@ -208,10 +211,6 @@
     <Content Include="packages.xsd">
       <SubType>Content</SubType>
       <Visible>false</Visible>
-    </Content>
-    <Content Include="Properties\tchmiconfig.tpl.json">
-      <SubType>Content</SubType>
-      <Visible>true</Visible>
     </Content>
     <Content Include="Properties\tchmiconfig.json">
       <SubType>Content</SubType>

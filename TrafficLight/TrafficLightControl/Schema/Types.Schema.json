@@ -7,7 +7,7 @@
       "frameworkControlType": "TrafficLightControl",
       "frameworkControlNamespace": "TcHmi.Controls.TrafficLight"
     },
-    "TrafficLight_Lights": {
+    "TcHmi.Controls.TrafficLight.TrafficLight_Lights": {
       "allOf": [
         {
           "$ref": "tchmi:framework#/definitions/Symbol"

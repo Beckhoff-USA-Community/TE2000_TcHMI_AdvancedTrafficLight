@@ -26,11 +26,13 @@
     "alwaysStrict": false
   },
   "include": [
-    "C:/Users/ZacharyD/source/repos/TE2000_TcHMI_AdvancedTrafficLight/Packages/Beckhoff.TwinCAT.HMI.Framework.12.746.3/runtimes/native1.12-tchmi/TcHmi.d.ts",
-    "C:/Users/ZacharyD/source/repos/TE2000_TcHMI_AdvancedTrafficLight/Packages/Beckhoff.TwinCAT.HMI.Framework.12.746.3/runtimes/native1.12-tchmi/Controls/System/TcHmiView/TcHmiView.d.ts",
-    "C:/Users/ZacharyD/source/repos/TE2000_TcHMI_AdvancedTrafficLight/Packages/ContextMenu.1.0.9/runtimes/native1.12-tchmi/ContextMenuControl/ContextMenuControl.d.ts"
+    "../Packages/Beckhoff.TwinCAT.HMI.Framework.12.750.1/runtimes/native1.12-tchmi/TcHmi.d.ts",
+    "../Packages/Beckhoff.TwinCAT.HMI.Framework.12.750.1/runtimes/native1.12-tchmi/Controls/System/TcHmiView/TcHmiView.d.ts",
+    "../Packages/ContextMenu.1.0.9/runtimes/native1.12-tchmi/ContextMenuControl/ContextMenuControl.d.ts",
+    "TrafficLightGlobals.d.ts"
   ],
   "files": [
-    "TrafficLightControl/TrafficLightControl.ts"
+    "TrafficLightControl/TrafficLightControl.ts",
+    "TrafficLightGlobals.ts"
   ]
 }

@@ -1,6 +1,4 @@
 ﻿{
-  "$schema": ".hmiframework/Schema/Manifest.Schema.json",
-  "apiVersion": 1,
   "modules": [
     {
       "type": "Package",
@@ -11,6 +9,10 @@
       "basePath": "TrafficLightControl/",
       "descriptionFile": "Description.json",
       "toolboxCategory": "TrafficLight:200"
+    },
+    {
+      "type": "Resource",
+      "path": "TrafficLightGlobals.js"
     }
   ],
   "provideMetadata": {
@@ -19,5 +21,7 @@
         "200": "TrafficLight"
       }
     }
-  }
+  },
+  "$schema": ".hmiframework/Schema/Manifest.Schema.json",
+  "apiVersion": 1
 }

@@ -9,18 +9,6 @@ var TcHmi;
     (function (Controls) {
         let TrafficLight;
         (function (TrafficLight) {
-            // Local class for defaulting "Lights" type of values
-            // No properties will be symbols themselves
-            // for best practice on handling properties that are symbols themselves:
-            // https://infosys.beckhoff.com/english.php?content=../content/1033/te2000_tc3_hmi_engineering/8973393163.html
-            class Lights {
-                constructor() {
-                    this.RedLight = false;
-                    this.YellowLight = false;
-                    this.GreenLight = false;
-                }
-            }
-            TrafficLight.Lights = Lights;
             class TrafficLightControl extends TcHmi.Controls.System.TcHmiControl {
                 /*
                 Attribute philosophy
@@ -186,7 +174,7 @@ var TcHmi;
                * @return {void}
                */
                 __processLights(newValue) {
-                    devLog(newValue);
+                    devLog("Process Lights", newValue);
                     // If newValue is the same as the current value, return
                     if (tchmi_equal(newValue, this.__lights)) {
                         return;
@@ -197,7 +185,7 @@ var TcHmi;
                     }
                     this.__lightsOld = tchmi_clone_object(this.__lights);
                     this.__lights = newValue;
-                    // If source is not the client, then its form the server
+                    // If source is not the client, then its from the server
                     // Data is only needed to be read and processed, not written to server
                     if (this.__lights.RedLight !== this.__lightsOld.RedLight) {
                         this.__processRedColor();
@@ -218,6 +206,7 @@ var TcHmi;
                 }
                 ///// set lights Symbol
                 setLightsSymbol(valueNew) {
+                    devLog('Lights Symbols, setLightsSymbol:', valueNew);
                     if (this.__lightsSymbol !== valueNew) {
                         if (this.__destroyLightsSymbolWatch) {
                             this.__destroyLightsSymbolWatch();
@@ -227,23 +216,42 @@ var TcHmi;
                             devLog('Lights Symbols, check schema:', valueNew);
                             // Helper code that could be used to check set symbol schema
                             // If it does match the required one - ST_TrafficLight, log error
-                            valueNew.resolveSchema(function (data) {
+                            valueNew.resolveSchema(data => {
                                 if (data.error === TcHmi.Errors.NONE) {
                                     // Handle result value... 
                                     var schema = data.schema;
+                                    // If the bound symbol schema id does not match the required input schema
+                                    if ((schema === null || schema === void 0 ? void 0 : schema.id) !== "tchmi:server#/definitions/PLC1.ST_TrafficLight") {
+                                        devLog('Lights Symbols, check schema id is not valid!');
+                                        this.__errorOverlay.remove(); // remove any previous overlay
+                                        this.__errorOverlay = $(`<div class="TcHmi_Controls_TrafficLight_TrafficLightControl_errorOverlay_opaque">
+                                            Error! The bound symbol does not match the required Traffic Light schema!
+                                        </div>`);
+                                        this.__elementTemplateRoot.append(this.__errorOverlay);
+                                    }
+                                    // Else if it matches, remove the overlay
+                                    else {
+                                        this.__errorOverlay.remove();
+                                        this.__lightsSymbol = valueNew;
+                                        this.__redLightExp = '%s%' + this.__lightsSymbol.getExpression().getName() + '::RedLight%/s%';
+                                        this.__yellowLightExp = '%s%' + this.__lightsSymbol.getExpression().getName() + '::YellowLight%/s%';
+                                        this.__greenLightExp = '%s%' + this.__lightsSymbol.getExpression().getName() + '::GreenLight%/s%';
+                                        this.__destroyLightsSymbolWatch = this.__lightsSymbol.watch(this.__onLightsSymbolWatch());
+                                    }
                                 }
                                 else {
-                                    // Handle error... 
+                                    // Handle error... failed to resolve schema
                                 }
                             });
-                            this.__lightsSymbol = valueNew;
-                            this.__redLightExp = '%s%' + this.__lightsSymbol.getExpression().getName() + '::RedLight%/s%';
-                            this.__yellowLightExp = '%s%' + this.__lightsSymbol.getExpression().getName() + '::YellowLight%/s%';
-                            this.__greenLightExp = '%s%' + this.__lightsSymbol.getExpression().getName() + '::GreenLight%/s%';
-                            this.__destroyLightsSymbolWatch = this.__lightsSymbol.watch(this.__onLightsSymbolWatch());
                         }
+                        // if not a symbol input
                         else {
                             this.__lightsSymbol = null;
+                            devLog('Lights Symbols, symbol value is null');
+                            this.__errorOverlay = $(`<div class="TcHmi_Controls_TrafficLight_TrafficLightControl_errorOverlay_transparent">
+                                            Symbol value is null or not bound.
+                                        </div>`);
+                            this.__elementTemplateRoot.append(this.__errorOverlay);
                             this.__processLights(this.__lightsDefault);
                         }
                         TcHmi.EventProvider.raise(this.__id + ".onFunctionResultChanged", ["getLightsSymbol"]);

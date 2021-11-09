@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "http://json.schemastore.org/tsconfig",
   "compileOnSave": true,
   "compilerOptions": {
@@ -28,9 +28,11 @@
   "include": [
     "$(Beckhoff.TwinCAT.HMI.Framework).InstallPath/TcHmi.d.ts",
     "$(Beckhoff.TwinCAT.HMI.Framework).InstallPath/Controls/System/TcHmiView/TcHmiView.d.ts",
-    "$(ContextMenu).InstallPath/ContextMenuControl/ContextMenuControl.d.ts"
+    "$(ContextMenu).InstallPath/ContextMenuControl/ContextMenuControl.d.ts",
+    "TrafficLightGlobals.d.ts"
   ],
   "files": [
-    "TrafficLightControl/TrafficLightControl.ts"
+    "TrafficLightControl/TrafficLightControl.ts",
+    "TrafficLightGlobals.ts"
   ]
 }

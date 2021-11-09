@@ -19,7 +19,7 @@
     <ProjectName>ContextMenu</ProjectName>
     <Name>ContextMenu</Name>
     <HmiInitial>1.12.734.0</HmiInitial>
-    <HmiRecent>1.12.746.3</HmiRecent>
+    <HmiRecent>1.12.750.1</HmiRecent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|TwinCAT HMI' ">
     <PlatformTarget>TwinCAT HMI</PlatformTarget>
@@ -40,8 +40,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TypeScriptToolsVersion>3.9</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>4.3</TypeScriptToolsVersion>
     <DefaultNamespace>ContextMenu</DefaultNamespace>
+    <TypeScriptBuildMode>False</TypeScriptBuildMode>
   </PropertyGroup>
   <PropertyGroup Label="TwinCatHMI">
     <TcHmiExtensionTypes>{CC169D49-EEDD-4BAF-8151-63DF12EDD7B4}</TcHmiExtensionTypes>

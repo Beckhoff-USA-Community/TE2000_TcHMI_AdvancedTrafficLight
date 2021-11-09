@@ -4,7 +4,7 @@
   
 
 </div>
-<div id="TcHmi_Controls_TrafficLight_TrafficLightControl" data-tchmi-type="TcHmi.Controls.TrafficLight.TrafficLightControl" "rgba(134,=" " " "rgba(134,=" " }" data-tchmi-height="180" data-tchmi-height-unit="px" data-tchmi-left="284" data-tchmi-left-unit="px" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="180" data-tchmi-width-unit="px">
+<div id="TcHmi_Controls_TrafficLight_TrafficLightControl" data-tchmi-type="TcHmi.Controls.TrafficLight.TrafficLightControl" data-tchmi-height="180" data-tchmi-height-unit="px" data-tchmi-left="284" data-tchmi-left-unit="px" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="180" data-tchmi-width-unit="px" data-tchmi-right-unit="px" data-tchmi-bottom-unit="px" data-tchmi-lightssymbol="%s%PLC1.MAIN.trafficLight01%/s%">
 
 
 <script data-tchmi-target-attribute="data-tchmi-red-oncolor" type="application/json">
@@ -14,7 +14,7 @@
 </script>
 </div>
 
-<div id="TcHmi_Controls_TrafficLight_TrafficLightControl_1" data-tchmi-type="TcHmi.Controls.TrafficLight.TrafficLightControl" "rgba(134,=" " " "rgba(134,=" " }" data-tchmi-height="180" data-tchmi-height-unit="px" data-tchmi-left="284" data-tchmi-left-unit="px" data-tchmi-top="324" data-tchmi-top-unit="px" data-tchmi-width="180" data-tchmi-width-unit="px" data-tchmi-lightssymbol="%s%PLC1.MAIN.trafficLight02%/s%" data-tchmi-right-unit="px" data-tchmi-bottom-unit="px">
+<div id="TcHmi_Controls_TrafficLight_TrafficLightControl_1" data-tchmi-type="TcHmi.Controls.TrafficLight.TrafficLightControl" data-tchmi-height="180" data-tchmi-height-unit="px" data-tchmi-left="284" data-tchmi-left-unit="px" data-tchmi-top="324" data-tchmi-top-unit="px" data-tchmi-width="180" data-tchmi-width-unit="px" data-tchmi-right-unit="px" data-tchmi-bottom-unit="px">
 
 
 <script data-tchmi-target-attribute="data-tchmi-red-oncolor" type="application/json">
@@ -31,5 +31,4 @@
 <div id="TcHmiTextblock_1" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="114" data-tchmi-height-unit="px" data-tchmi-left="20" data-tchmi-left-unit="px" data-tchmi-text="The traffic light control also include touch logic for tapping the lights on and off. Within the logic is also a touch lock that prevents accidental fast touching" data-tchmi-top="514" data-tchmi-top-unit="px" data-tchmi-width="254" data-tchmi-width-unit="px" data-tchmi-word-wrap="True">
 
 </div>
-
 </div>
