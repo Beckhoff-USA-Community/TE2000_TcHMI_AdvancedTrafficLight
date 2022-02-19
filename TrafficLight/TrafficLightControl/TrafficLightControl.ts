@@ -29,8 +29,10 @@ module TcHmi {
                     super(element, pcElement, attrs);
                 }
 
+
                 // Reference to the root <div> of the control
-                protected __elementTemplateRoot!            : JQuery;
+                protected __elementTemplateRoot!:   JQuery;
+                protected __elementErrorPopup!:     JQuery;
 
                 // Reference to the full Traffic Light <svg>
                 protected __elementTrafficLightSvg!         : JQuery;
@@ -38,7 +40,17 @@ module TcHmi {
                 // References to each light element within the <svg>
                 protected __elementRedLight!                : JQuery;
                 protected __elementYellowLight!             : JQuery;
-                protected __elementGreenLight!              : JQuery;
+                protected __elementGreenLight!: JQuery;
+
+                // Control Locale string handlers
+                protected __destroyLocalizationWatch: DestroyFunction;
+                protected __localizationReader: Locale.LocalizationReader;
+
+                // Map of all elements within the control that would display localized text
+                protected __localizedElements: Map<JQuery, {
+                    localeKey: string;
+                    parameters?: any[] | undefined;
+                }>;
 
                 // Color vars and default values used for initial compiling
                 // If there is no user set value in the VS attribute field, and no value in the control "Description.json" file, these are used
@@ -72,9 +84,6 @@ module TcHmi {
                 private __lightsSymbol                      : TcHmi.Symbol | null;
                 private __destroyLightsSymbolWatch          : DestroyFunction | null;
 
-                // Reference to a temp error overlay for the control instance
-                private __errorOverlay                      : JQuery;
-
                 private __redLightExp                       : string;
                 private __yellowLightExp                    : string;
                 private __greenLightExp                     : string;
@@ -97,18 +106,47 @@ module TcHmi {
                 capture: false
             };
 
-
+                
 
 				/**
                   * If raised, the control object exists in control cache and constructor of each inheritation level was called.
                   * Call attribute processor functions here to initialize default values!
                   */
                 public __previnit() {
+
+
                     // Fetch template root element
                     this.__elementTemplateRoot = this.__element.find('.TcHmi_Controls_TrafficLight_TrafficLightControl-Template');
                     if (this.__elementTemplateRoot.length === 0) {
                         throw new Error('Invalid Template.html');
-                    }
+                    };
+
+                    this.__elementErrorPopup = this.__elementTemplateRoot.find('.TcHmi_Controls_TrafficLight_TrafficLightControl-Template-errorOverlay');
+                    if (this.__elementErrorPopup.length === 0) {
+                        throw new Error('Invalid Template.html');
+                    };
+
+                    // Error popup HTML is stored in template, but not needed at runtime until an error occurs
+                    this.__elementErrorPopup.remove();
+
+                    // Init the map
+                    this.__localizedElements = new Map();
+
+                    // Define the callback to run when the locale changes
+                    // In this case, update all elements inner text with the defined key they were set with
+                    this.__destroyLocalizationWatch = this.__localization.watch(data => {
+                        if (data.error === TcHmi.Errors.NONE && data.reader) {
+                            this.__localizationReader = data.reader;
+                            for (const [element, info] of this.__localizedElements) {
+                                let localizedText = data.reader.get(info.localeKey);
+                                info.parameters && (localizedText = tchmi_format_string(localizedText, ...info.parameters)),
+                                    element.text(tchmi_decode_control_characters(localizedText));
+                            }
+                        }
+                    })
+
+
+
 
 
                     this.__elementTrafficLightSvg = this.__elementTemplateRoot.find('.traffic-light-svg');
@@ -117,7 +155,7 @@ module TcHmi {
                     this.__elementGreenLight = this.__elementTrafficLightSvg.find('.traffic-light-green');
 
 
-
+                    
 
                     // Call __previnit of base class
                     super.__previnit();
@@ -211,6 +249,10 @@ module TcHmi {
                     this.__elementTrafficLightSvg[0].removeEventListener("click", this.__onClickHandler, this.mouseEvtOptions);
 
 
+                    // Destroy the locale string handler when control is removed from memory
+                    this.__destroyLocalizationWatch();
+
+
                     super.destroy();
 
                     /**
@@ -284,6 +326,24 @@ module TcHmi {
                     })
                 }
 
+                private __removeErrorOverlay(): void {
+                    this.__elementErrorPopup.attr("class","TcHmi_Controls_TrafficLight_TrafficLightControl-Template-errorOverlay")
+                    this.__elementErrorPopup.text("");
+                    this.__elementErrorPopup.remove();
+                    this.__localizedElements.delete(this.__elementErrorPopup);
+                }
+
+                private __addErrorOverlay(errorClass: string, localeKey : string): void {
+                    this.__elementErrorPopup.addClass(errorClass);
+                    this.__elementErrorPopup.text(
+                        this.__localizationReader.get(localeKey)
+                    )
+
+                    this.__elementTemplateRoot.append(this.__elementErrorPopup);
+                    this.__localizedElements.set(this.__elementErrorPopup, { localeKey: localeKey });
+
+
+                }
 
                 ///// set lights Symbol
                 public setLightsSymbol(valueNew: TcHmi.Symbol) {
@@ -308,16 +368,18 @@ module TcHmi {
                                     // If the bound symbol schema id does not match the required input schema
                                     if (schema?.id !== "tchmi:server#/definitions/PLC1.ST_TrafficLight") {
                                         devLog('Lights Symbols, check schema id is not valid!');
-                                        this.__errorOverlay.remove(); // remove any previous overlay
-                                        this.__errorOverlay = $(`<div class="TcHmi_Controls_TrafficLight_TrafficLightControl_errorOverlay_opaque">
-                                            Error! The bound symbol does not match the required Traffic Light schema!
-                                        </div>`)
-                                        this.__elementTemplateRoot.append(this.__errorOverlay);
+
+                                        this.__removeErrorOverlay();
+
+                                        this.__addErrorOverlay("opaque", "Schema_Mismatch");
+
+
                                     }
 
                                     // Else if it matches, remove the overlay
                                     else {
-                                        this.__errorOverlay.remove();
+                                        this.__removeErrorOverlay();
+
                                         this.__lightsSymbol = valueNew;
                                         this.__redLightExp = '%s%' + this.__lightsSymbol.getExpression().getName() + '::RedLight%/s%';
                                         this.__yellowLightExp = '%s%' + this.__lightsSymbol.getExpression().getName() + '::YellowLight%/s%';
@@ -341,15 +403,13 @@ module TcHmi {
 
                             this.__lightsSymbol = null;
                             devLog('Lights Symbols, symbol value is null');
-                            this.__errorOverlay = $(`<div class="TcHmi_Controls_TrafficLight_TrafficLightControl_errorOverlay_transparent">
-                                            Symbol value is null or not bound.
-                                        </div>`)
-                            this.__elementTemplateRoot.append(this.__errorOverlay);
+                            this.__addErrorOverlay("transparent", "Invalid_Light_Symbol");
+
 
                             this.__processLights(this.__lightsDefault);
 
                         }
-                        TcHmi.EventProvider.raise(this.__id + ".onFunctionResultChanged", ["getLightsSymbol"])
+                        TcHmi.EventProvider.raise(this.__id + ".onFunctionResultChanged", ["getLightsSymbol"]);
                     }
 
 
@@ -482,8 +542,13 @@ module TcHmi {
                 public __onClick() {
                     var _this = this;
                     return function (event: MouseEvent) {
+                        
                         switch (event.target) {
                             case _this.__elementRedLight[0]:
+
+                                if (!_this.__redLightExp) {
+                                    TcHmi.Log.error
+                                }
 
                                 TcHmi.Symbol.writeEx(_this.__redLightExp,
                                     !_this.__lights.RedLight, function (data) {

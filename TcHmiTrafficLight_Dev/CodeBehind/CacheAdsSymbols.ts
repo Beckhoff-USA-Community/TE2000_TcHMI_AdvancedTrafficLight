@@ -6,15 +6,57 @@
         e.destroy();
 
         // Setup a Subscription to the ADS Symbols list so any runtime changes also update the internal cache held here
+
+
             let request: Server.IMessage = {
                 "requestType": "Subscription",
                 "commands": [
                     {
                         "commandOptions": ["SendErrorMessage", "SendWriteValue"],
-                        "symbol": "ADS.ListSymbols::definitions"
+                        "symbol": "ADS.ListSymbols::definitions",
+                        "filter": [{
+                            "path": "$ref",
+                            "comparator": "==",
+                            "value": "#/definitions/PLC1.ST_TrafficLight"
+
+                        },
+                            { "logic": "OR" },
+
+                            {
+                                "path": "allOf[1]::$ref",
+                                "comparator": "==",
+                                "value": "#/definitions/PLC1.ST_TrafficLight"
+
+                            }
+                        ]
+                        
                     }
                 ]
-            }
+        }
+
+        /*  
+
+            let request: Server.IMessage = {
+                "requestType": "Subscription",
+                "commands": [
+                    {
+                        "commandOptions": ["SendErrorMessage", "SendWriteValue"],
+                        "symbol": "ADS.ListSymbols::definitions::PLC1.Main::properties",
+                        "filter" : 
+                    }
+                ]
+        }
+
+
+
+
+         **/
+
+
+
+        //“$ref” == #/definitions/PLC1.ST_TrafficLight
+        //OR
+        // “allOf[1]::$ref” == #/definitions/PLC1.ST_TrafficLight
 
         // With subscription, any change will return a new value and run this callback
             TcHmi.Server.request(request, function (data: Server.IResultObject) {

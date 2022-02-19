@@ -72,6 +72,28 @@ var TcHmi;
                     if (this.__elementTemplateRoot.length === 0) {
                         throw new Error('Invalid Template.html');
                     }
+                    ;
+                    this.__elementErrorPopup = this.__elementTemplateRoot.find('.TcHmi_Controls_TrafficLight_TrafficLightControl-Template-errorOverlay');
+                    if (this.__elementErrorPopup.length === 0) {
+                        throw new Error('Invalid Template.html');
+                    }
+                    ;
+                    // Error popup HTML is stored in template, but not needed at runtime until an error occurs
+                    this.__elementErrorPopup.remove();
+                    // Init the map
+                    this.__localizedElements = new Map();
+                    // Define the callback to run when the locale changes
+                    // In this case, update all elements inner text with the defined key they were set with
+                    this.__destroyLocalizationWatch = this.__localization.watch(data => {
+                        if (data.error === TcHmi.Errors.NONE && data.reader) {
+                            this.__localizationReader = data.reader;
+                            for (const [element, info] of this.__localizedElements) {
+                                let localizedText = data.reader.get(info.localeKey);
+                                info.parameters && (localizedText = tchmi_format_string(localizedText, ...info.parameters)),
+                                    element.text(tchmi_decode_control_characters(localizedText));
+                            }
+                        }
+                    });
                     this.__elementTrafficLightSvg = this.__elementTemplateRoot.find('.traffic-light-svg');
                     this.__elementRedLight = this.__elementTrafficLightSvg.find('.traffic-light-red');
                     this.__elementYellowLight = this.__elementTrafficLightSvg.find('.traffic-light-yellow');
@@ -143,6 +165,8 @@ var TcHmi;
                     this.__elementTrafficLightSvg[0].removeEventListener("touchend", this.__onTouchEndOrCancelHandler, this.touchEvtOptions);
                     this.__elementTrafficLightSvg[0].removeEventListener("touchcancel", this.__onTouchEndOrCancelHandler, this.touchEvtOptions);
                     this.__elementTrafficLightSvg[0].removeEventListener("click", this.__onClickHandler, this.mouseEvtOptions);
+                    // Destroy the locale string handler when control is removed from memory
+                    this.__destroyLocalizationWatch();
                     super.destroy();
                     /**
                     * Free resources like child controls etc.
@@ -204,6 +228,18 @@ var TcHmi;
                         lightdOld: this.__lightsOld
                     });
                 }
+                __removeErrorOverlay() {
+                    this.__elementErrorPopup.attr("class", "TcHmi_Controls_TrafficLight_TrafficLightControl-Template-errorOverlay");
+                    this.__elementErrorPopup.text("");
+                    this.__elementErrorPopup.remove();
+                    this.__localizedElements.delete(this.__elementErrorPopup);
+                }
+                __addErrorOverlay(errorClass, localeKey) {
+                    this.__elementErrorPopup.addClass(errorClass);
+                    this.__elementErrorPopup.text(this.__localizationReader.get(localeKey));
+                    this.__elementTemplateRoot.append(this.__elementErrorPopup);
+                    this.__localizedElements.set(this.__elementErrorPopup, { localeKey: localeKey });
+                }
                 ///// set lights Symbol
                 setLightsSymbol(valueNew) {
                     devLog('Lights Symbols, setLightsSymbol:', valueNew);
@@ -223,15 +259,12 @@ var TcHmi;
                                     // If the bound symbol schema id does not match the required input schema
                                     if ((schema === null || schema === void 0 ? void 0 : schema.id) !== "tchmi:server#/definitions/PLC1.ST_TrafficLight") {
                                         devLog('Lights Symbols, check schema id is not valid!');
-                                        this.__errorOverlay.remove(); // remove any previous overlay
-                                        this.__errorOverlay = $(`<div class="TcHmi_Controls_TrafficLight_TrafficLightControl_errorOverlay_opaque">
-                                            Error! The bound symbol does not match the required Traffic Light schema!
-                                        </div>`);
-                                        this.__elementTemplateRoot.append(this.__errorOverlay);
+                                        this.__removeErrorOverlay();
+                                        this.__addErrorOverlay("opaque", "Schema_Mismatch");
                                     }
                                     // Else if it matches, remove the overlay
                                     else {
-                                        this.__errorOverlay.remove();
+                                        this.__removeErrorOverlay();
                                         this.__lightsSymbol = valueNew;
                                         this.__redLightExp = '%s%' + this.__lightsSymbol.getExpression().getName() + '::RedLight%/s%';
                                         this.__yellowLightExp = '%s%' + this.__lightsSymbol.getExpression().getName() + '::YellowLight%/s%';
@@ -248,10 +281,7 @@ var TcHmi;
                         else {
                             this.__lightsSymbol = null;
                             devLog('Lights Symbols, symbol value is null');
-                            this.__errorOverlay = $(`<div class="TcHmi_Controls_TrafficLight_TrafficLightControl_errorOverlay_transparent">
-                                            Symbol value is null or not bound.
-                                        </div>`);
-                            this.__elementTemplateRoot.append(this.__errorOverlay);
+                            this.__addErrorOverlay("transparent", "Invalid_Light_Symbol");
                             this.__processLights(this.__lightsDefault);
                         }
                         TcHmi.EventProvider.raise(this.__id + ".onFunctionResultChanged", ["getLightsSymbol"]);
@@ -364,6 +394,9 @@ var TcHmi;
                     return function (event) {
                         switch (event.target) {
                             case _this.__elementRedLight[0]:
+                                if (!_this.__redLightExp) {
+                                    TcHmi.Log.error;
+                                }
                                 TcHmi.Symbol.writeEx(_this.__redLightExp, !_this.__lights.RedLight, function (data) {
                                     if (data.error) {
                                         TcHmi.Log.error(TcHmi.Log.buildMessage(data.details));

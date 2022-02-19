@@ -1,0 +1,8 @@
+{
+    "$schema": "../../../../TcHmiServer/TcHmiSrv/schema/Language.Schema.json",
+    "locale": "en",
+    "localizedText": {
+        "Invalid_Light_Symbol": "The TrafficLight symbol is null, undefined, or not bound.",
+        "Schema_Mismatch": "The bound symbol does not match the required TrafficLight schema."
+    }
+}

@@ -23,10 +23,10 @@
     <EnableTypeScript>true</EnableTypeScript>
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
     <Name>TcHmiTrafficLight_Dev</Name>
-    <HmiCommunicationRouterPort>10107</HmiCommunicationRouterPort>
+    <HmiCommunicationRouterPort>10108</HmiCommunicationRouterPort>
     <HmiCommunicationServerAuthPort>13002</HmiCommunicationServerAuthPort>
     <HmiInitial>1.12.734.0</HmiInitial>
-    <HmiRecent>1.12.750.1</HmiRecent>
+    <HmiRecent>1.12.752.0</HmiRecent>
     <HmiServerNodeAdvancedView>False</HmiServerNodeAdvancedView>
     <TcHmi_ContextMenu_IncludedInSolution>True</TcHmi_ContextMenu_IncludedInSolution>
     <TcHmi_TrafficLight_IncludedInSolution>True</TcHmi_TrafficLight_IncludedInSolution>

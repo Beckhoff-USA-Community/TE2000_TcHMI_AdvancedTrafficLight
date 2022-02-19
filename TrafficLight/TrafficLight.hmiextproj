@@ -19,7 +19,7 @@
     <ProjectName>TrafficLight</ProjectName>
     <Name>TrafficLight</Name>
     <HmiInitial>1.12.734.0</HmiInitial>
-    <HmiRecent>1.12.750.1</HmiRecent>
+    <HmiRecent>1.12.752.0</HmiRecent>
     <TcHmi_ContextMenu_IncludedInSolution>True</TcHmi_ContextMenu_IncludedInSolution>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|TwinCAT HMI' ">
@@ -57,6 +57,12 @@
   <Import Project="$(TwinCATHmi_Targets)" />
   <ItemGroup>
     <Content Include="Licenses\License.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="TrafficLightControl\Lang\de.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="TrafficLightControl\Lang\en.json">
       <SubType>Content</SubType>
     </Content>
     <Content Include="TrafficLightGlobals.ts">
@@ -101,6 +107,7 @@
     <Folder Include="Licenses" />
     <Folder Include="TrafficLightControl\" />
     <Folder Include="TrafficLightControl\Icons\" />
+    <Folder Include="TrafficLightControl\Lang" />
     <Folder Include="TrafficLightControl\Schema\" />
     <Folder Include="TrafficLightControl\Themes\" />
     <Folder Include="TrafficLightControl\Themes\Base\" />

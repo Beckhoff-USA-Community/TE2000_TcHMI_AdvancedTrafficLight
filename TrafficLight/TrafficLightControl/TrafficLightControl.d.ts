@@ -11,10 +11,17 @@ declare module TcHmi {
                  */
                 constructor(element: JQuery, pcElement: JQuery, attrs: TcHmi.Controls.ControlAttributeList);
                 protected __elementTemplateRoot: JQuery;
+                protected __elementErrorPopup: JQuery;
                 protected __elementTrafficLightSvg: JQuery;
                 protected __elementRedLight: JQuery;
                 protected __elementYellowLight: JQuery;
                 protected __elementGreenLight: JQuery;
+                protected __destroyLocalizationWatch: DestroyFunction;
+                protected __localizationReader: Locale.LocalizationReader;
+                protected __localizedElements: Map<JQuery, {
+                    localeKey: string;
+                    parameters?: any[] | undefined;
+                }>;
                 private __redoncolor;
                 private __yellowoncolor;
                 private __greenoncolor;
@@ -28,7 +35,6 @@ declare module TcHmi {
                 private __touches;
                 private __lightsSymbol;
                 private __destroyLightsSymbolWatch;
-                private __errorOverlay;
                 private __redLightExp;
                 private __yellowLightExp;
                 private __greenLightExp;
@@ -78,6 +84,8 @@ declare module TcHmi {
                * @return {void}
                */
                 __processLights(newValue: TcHmi.Controls.TrafficLight.Lights): void;
+                private __removeErrorOverlay;
+                private __addErrorOverlay;
                 setLightsSymbol(valueNew: TcHmi.Symbol): void;
                 getLightsSymbol(): Symbol<any> | null;
                 getLights(): Lights;

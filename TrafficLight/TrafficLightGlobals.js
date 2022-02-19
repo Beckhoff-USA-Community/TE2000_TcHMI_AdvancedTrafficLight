@@ -1,5 +1,3 @@
-// Keep these lines for a best effort IntelliSense of Visual Studio 2017.
-/// <reference path="./../Packages/Beckhoff.TwinCAT.HMI.Framework.12.750.1/runtimes/native1.12-tchmi/TcHmi.d.ts" />
 var TcHmi;
 (function (TcHmi) {
     let Controls;
@@ -24,6 +22,7 @@ var TcHmi;
                 ;
             }
             TrafficLight.Framework = Framework;
+            var test;
             // Function that searches for and returns an array of matches property values 
             var getListOfDatatypeMatches = function (object, value) {
                 return Object.keys(object).filter(function (key, index, array) {

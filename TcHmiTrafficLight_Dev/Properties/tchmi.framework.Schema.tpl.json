@@ -2555,6 +2555,14 @@
       ],
       "default": "Visible"
     },
+    "EnumMapping": {
+      "type": "object",
+      "patternProperties": {
+        "^-?\\d+$": {
+          "type": "string"
+        }
+      }
+    },
     "TcHmi.Controls.Beckhoff.TcHmiButton": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "object",
@@ -4023,6 +4031,7 @@
                   "severity",
                   "type",
                   "alarmState",
+                  "confirmationState",
                   "domain",
                   "sourceDomain",
                   "name",

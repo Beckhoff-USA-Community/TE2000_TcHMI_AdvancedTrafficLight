@@ -16,8 +16,8 @@
     <icon>images/logo.png</icon>
     <dependencies>
       <group targetFramework="native1.12-tchmi">
-        <dependency id="Beckhoff.TwinCAT.HMI.Framework" version="12.750.1" />
         <dependency id="ContextMenu" version="1.0.9" />
+        <dependency id="Beckhoff.TwinCAT.HMI.Framework" version="12.752.0" />
       </group>
     </dependencies>
   </metadata>
