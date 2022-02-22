@@ -5,13 +5,13 @@ var TcHmi;
         // This event will be raised only once, so we can free resources. 
         // It's best practice to use destroy function of the event object within the callback function to avoid conflicts.
         e.destroy();
-        // Setup a Subscription to the ADS Symbols list so any runtime changes also update the internal cache held here
+        // Setup a Subscription to the MAIN symbols, and only return symbols that are the traffic light DUT
         let request = {
             "requestType": "Subscription",
             "commands": [
                 {
                     "commandOptions": ["SendErrorMessage", "SendWriteValue"],
-                    "symbol": "ADS.ListSymbols::definitions",
+                    "symbol": "ADS.ListSymbols::definitions::PLC1.MAIN::properties",
                     "filter": [{
                             "path": "$ref",
                             "comparator": "==",
@@ -27,26 +27,6 @@ var TcHmi;
                 }
             ]
         };
-        /*
-
-            let request: Server.IMessage = {
-                "requestType": "Subscription",
-                "commands": [
-                    {
-                        "commandOptions": ["SendErrorMessage", "SendWriteValue"],
-                        "symbol": "ADS.ListSymbols::definitions::PLC1.Main::properties",
-                        "filter" :
-                    }
-                ]
-        }
-
-
-
-
-         **/
-        //“$ref” == #/definitions/PLC1.ST_TrafficLight
-        //OR
-        // “allOf[1]::$ref” == #/definitions/PLC1.ST_TrafficLight
         // With subscription, any change will return a new value and run this callback
         TcHmi.Server.request(request, function (data) {
             if (data === undefined || data.response === undefined || data.response.commands === undefined) {
@@ -62,8 +42,8 @@ var TcHmi;
             let AdsSymbolList = data.response.commands[0].readValue;
             // Cache all ADS Symbols from ADS Server in a local internal symbol
             // The subscription callback will run anytime a change is detected within the "ADS.ListSymbols::definitions" symbol and update the local cache
-            TcHmi.Symbol.writeEx('%i%AdsSymbolCache%/i%', AdsSymbolList);
+            TcHmi.Symbol.writeEx('%i%MAIN_TrafficLightSymbols%/i%', AdsSymbolList);
         });
     });
 })(TcHmi || (TcHmi = {}));
-//# sourceMappingURL=CacheAdsSymbols.js.map
+//# sourceMappingURL=Main_FilteredSymbolsList.js.map

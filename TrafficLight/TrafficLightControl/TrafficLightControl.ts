@@ -138,8 +138,14 @@ module TcHmi {
                         if (data.error === TcHmi.Errors.NONE && data.reader) {
                             this.__localizationReader = data.reader;
                             for (const [element, info] of this.__localizedElements) {
-                                let localizedText = data.reader.get(info.localeKey);
-                                info.parameters && (localizedText = tchmi_format_string(localizedText, ...info.parameters)),
+                                let localizedText: string;
+
+                                localizedText = data.reader.get(info.localeKey);
+
+                                if (info.parameters) {
+                                    localizedText = tchmi_format_string(localizedText, ...info.parameters);
+                                }
+                                
                                     element.text(tchmi_decode_control_characters(localizedText));
                             }
                         }
@@ -333,14 +339,20 @@ module TcHmi {
                     this.__localizedElements.delete(this.__elementErrorPopup);
                 }
 
-                private __addErrorOverlay(errorClass: string, localeKey : string): void {
+                private __addErrorOverlay(errorClass: string, localeKey: string, parameters?: any[] | undefined ): void {
+
+                    let localizedText: string;
+                    localizedText = this.__localizationReader.get(localeKey);
+                    if (parameters) {
+                        localizedText = tchmi_format_string(localizedText, ...parameters);
+                    }
+
                     this.__elementErrorPopup.addClass(errorClass);
-                    this.__elementErrorPopup.text(
-                        this.__localizationReader.get(localeKey)
-                    )
+
+                    this.__elementErrorPopup.text(localizedText)
 
                     this.__elementTemplateRoot.append(this.__elementErrorPopup);
-                    this.__localizedElements.set(this.__elementErrorPopup, { localeKey: localeKey });
+                    this.__localizedElements.set(this.__elementErrorPopup, { localeKey: localeKey, parameters: parameters });
 
 
                 }
@@ -371,7 +383,7 @@ module TcHmi {
 
                                         this.__removeErrorOverlay();
 
-                                        this.__addErrorOverlay("opaque", "Schema_Mismatch");
+                                        this.__addErrorOverlay("opaque", "Schema_Mismatch", [valueNew.getExpression().getName()]);
 
 
                                     }
@@ -403,7 +415,7 @@ module TcHmi {
 
                             this.__lightsSymbol = null;
                             devLog('Lights Symbols, symbol value is null');
-                            this.__addErrorOverlay("transparent", "Invalid_Light_Symbol");
+                            this.__addErrorOverlay("transparent", "Invalid_Light_Symbol", [valueNew]);
 
 
                             this.__processLights(this.__lightsDefault);

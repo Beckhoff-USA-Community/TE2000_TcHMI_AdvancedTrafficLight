@@ -88,9 +88,12 @@ var TcHmi;
                         if (data.error === TcHmi.Errors.NONE && data.reader) {
                             this.__localizationReader = data.reader;
                             for (const [element, info] of this.__localizedElements) {
-                                let localizedText = data.reader.get(info.localeKey);
-                                info.parameters && (localizedText = tchmi_format_string(localizedText, ...info.parameters)),
-                                    element.text(tchmi_decode_control_characters(localizedText));
+                                let localizedText;
+                                localizedText = data.reader.get(info.localeKey);
+                                if (info.parameters) {
+                                    localizedText = tchmi_format_string(localizedText, ...info.parameters);
+                                }
+                                element.text(tchmi_decode_control_characters(localizedText));
                             }
                         }
                     });
@@ -234,11 +237,16 @@ var TcHmi;
                     this.__elementErrorPopup.remove();
                     this.__localizedElements.delete(this.__elementErrorPopup);
                 }
-                __addErrorOverlay(errorClass, localeKey) {
+                __addErrorOverlay(errorClass, localeKey, parameters) {
+                    let localizedText;
+                    localizedText = this.__localizationReader.get(localeKey);
+                    if (parameters) {
+                        localizedText = tchmi_format_string(localizedText, ...parameters);
+                    }
                     this.__elementErrorPopup.addClass(errorClass);
-                    this.__elementErrorPopup.text(this.__localizationReader.get(localeKey));
+                    this.__elementErrorPopup.text(localizedText);
                     this.__elementTemplateRoot.append(this.__elementErrorPopup);
-                    this.__localizedElements.set(this.__elementErrorPopup, { localeKey: localeKey });
+                    this.__localizedElements.set(this.__elementErrorPopup, { localeKey: localeKey, parameters: parameters });
                 }
                 ///// set lights Symbol
                 setLightsSymbol(valueNew) {
@@ -260,7 +268,7 @@ var TcHmi;
                                     if ((schema === null || schema === void 0 ? void 0 : schema.id) !== "tchmi:server#/definitions/PLC1.ST_TrafficLight") {
                                         devLog('Lights Symbols, check schema id is not valid!');
                                         this.__removeErrorOverlay();
-                                        this.__addErrorOverlay("opaque", "Schema_Mismatch");
+                                        this.__addErrorOverlay("opaque", "Schema_Mismatch", [valueNew.getExpression().getName()]);
                                     }
                                     // Else if it matches, remove the overlay
                                     else {
@@ -281,7 +289,7 @@ var TcHmi;
                         else {
                             this.__lightsSymbol = null;
                             devLog('Lights Symbols, symbol value is null');
-                            this.__addErrorOverlay("transparent", "Invalid_Light_Symbol");
+                            this.__addErrorOverlay("transparent", "Invalid_Light_Symbol", [valueNew]);
                             this.__processLights(this.__lightsDefault);
                         }
                         TcHmi.EventProvider.raise(this.__id + ".onFunctionResultChanged", ["getLightsSymbol"]);

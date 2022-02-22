@@ -31,6 +31,6 @@
     "$(Beckhoff.TwinCAT.HMI.Framework).InstallPath/TcHmi.d.ts"
   ],
   "files": [
-    "CodeBehind/CacheAdsSymbols.ts"
+    "CodeBehind/Main_FilteredSymbolsList.ts"
   ]
 }

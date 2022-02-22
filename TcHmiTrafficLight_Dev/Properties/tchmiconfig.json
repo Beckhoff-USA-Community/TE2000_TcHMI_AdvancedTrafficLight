@@ -30,14 +30,14 @@
   },
   "dependencyFiles": [
     {
-      "name": "CodeBehind/CacheAdsSymbols.js",
-      "description": "",
-      "type": "JavaScript"
-    },
-    {
       "name": "Fonts/Fonts.css",
       "description": "",
       "type": "Stylesheet"
+    },
+    {
+      "name": "CodeBehind/Main_FilteredSymbolsList.js",
+      "description": "",
+      "type": "JavaScript"
     }
   ],
   "userControls": [],
@@ -61,7 +61,7 @@
   "userFunctions": [],
   "symbols": {
     "internal": {
-      "AdsSymbolCache": {
+      "MAIN_TrafficLightSymbols": {
         "value": {},
         "type": "tchmi:general#/definitions/Object",
         "persist": false,

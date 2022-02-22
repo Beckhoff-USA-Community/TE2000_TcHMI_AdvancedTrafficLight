@@ -12,7 +12,8 @@
 
 
 .TcHmi_Controls_TrafficLight_TrafficLightControl-Template-errorOverlay.opaque {
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.8);
+    ;
     color: white;
     position: absolute;
     box-sizing: border-box;
@@ -34,7 +35,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 40%;
+    height: 100%;
 }
 
 .TcHmi_Controls_TrafficLight_TrafficLightControl-Template .traffic-light-svg {

@@ -39,7 +39,7 @@
                 });
             }
 
-            var AdsSymbolCache: TcHmi.Symbol = new Symbol('%i%AdsSymbolCache%/i%');
+            var Main_TrafficLightList: TcHmi.Symbol = new Symbol('%i%MAIN_TrafficLightSymbols%/i%');
 
             var destroyOnInitialized = TcHmi.EventProvider.register('onInitialized', function (e, data) {
                 // This event will be raised only once, so we can free resources. 
@@ -48,10 +48,10 @@
 
                 // Register callback to parse the symbols list for any Traffic Light types under the PLC1.MAIN namespace
                 // PLC1 comes from the TcHmi name for the target runtime under the ADS Server Extension
-                AdsSymbolCache.watch(data => {
-                    if (data.value && data.value["PLC1.MAIN"]) {
+                Main_TrafficLightList.watch(data => {
+                    if (data.value) {
 
-                        let PlcMainVars: JsonSchema = data.value["PLC1.MAIN"].properties;
+                        let PlcMainVars: JsonSchema = data.value;
                         console.log("All MAIN vars and their schemas:", PlcMainVars);
 
                         // Run filter to only return string array of ST_TrafficLight symbol names

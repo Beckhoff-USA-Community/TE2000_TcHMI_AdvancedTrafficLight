@@ -1,14 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
   <POU Name="MAIN" Id="{21b87483-29ec-4e1e-868f-12be3b6a0f39}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
-
-VAR PERSISTENT
-	
-test : BOOL;
-
-END_VAR
-
 VAR
 	
 // Users can read pragmas in TcHmi

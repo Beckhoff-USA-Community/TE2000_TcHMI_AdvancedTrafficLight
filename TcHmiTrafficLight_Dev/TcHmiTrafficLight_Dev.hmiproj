@@ -23,7 +23,7 @@
     <EnableTypeScript>true</EnableTypeScript>
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
     <Name>TcHmiTrafficLight_Dev</Name>
-    <HmiCommunicationRouterPort>10108</HmiCommunicationRouterPort>
+    <HmiCommunicationRouterPort>10109</HmiCommunicationRouterPort>
     <HmiCommunicationServerAuthPort>13002</HmiCommunicationServerAuthPort>
     <HmiInitial>1.12.734.0</HmiInitial>
     <HmiRecent>1.12.752.0</HmiRecent>
@@ -142,7 +142,7 @@
     <Content Include=".eslintrc.json">
       <Visible>false</Visible>
     </Content>
-    <Content Include="CodeBehind\CacheAdsSymbols.ts">
+    <Content Include="CodeBehind\Main_FilteredSymbolsList.ts">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Content\Content1.content">
