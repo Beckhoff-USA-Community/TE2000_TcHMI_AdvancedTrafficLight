@@ -27,6 +27,30 @@
     "DEFAULTTIMEZONE": "client",
     "DEFAULTUSERGROUP": "__SystemUsers",
     "DEFINITIONS": {
+        "PLC1.FB_TrafficLightHandler": {
+            "properties": {
+                "Lights": {
+                    "$ref": "#/definitions/PLC1.ST_TrafficLight"
+                },
+                "M_RequestAllLightOff": {
+                    "$ref": "#/definitions/PLC1.METHOD-RETURNING-BOOL"
+                },
+                "M_RequestAllLightOn": {
+                    "$ref": "#/definitions/PLC1.METHOD-RETURNING-BOOL"
+                }
+            },
+            "type": "object"
+        },
+        "PLC1.METHOD-RETURNING-BOOL": {
+            "allOf": [
+                {
+                    "$ref": "tchmi:general#/definitions/BOOL"
+                },
+                {
+                    "function": true
+                }
+            ]
+        },
         "PLC1.ST_TrafficLight": {
             "properties": {
                 "GreenLight": {
@@ -44,10 +68,11 @@
     },
     "DEFLATECOMPRESSIONLEVEL": 5,
     "DIAGNOSTICS_DOMAINS": [],
+    "DISABLED_CONFIGURATION_HINTS": [],
     "DISCOVERY": 2,
     "ENABLE_SERVER_UPDATE": true,
     "ENDPOINTS": [
-        "http://127.0.0.1:13002",
+        "http://127.0.0.1:13003",
         "http://127.0.0.1:3003"
     ],
     "ETAGENABLED": true,
@@ -448,6 +473,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "AdsSyncReadDeviceInfoReq",
             "OPTIONS": {},
@@ -464,6 +490,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "AdsSyncReadReq",
             "OPTIONS": {},
@@ -498,6 +525,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "AdsSyncReadStateReq",
             "OPTIONS": {},
@@ -550,6 +578,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "AdsSyncReadWriteReq",
             "OPTIONS": {},
@@ -590,6 +619,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "AdsSyncWriteControlReq",
             "OPTIONS": {},
@@ -626,6 +656,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "AdsSyncWriteReq",
             "OPTIONS": {},
@@ -662,6 +693,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "CheckLicense",
             "OPTIONS": {},
@@ -690,6 +722,7 @@
             "ACCESS": 0,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Config",
             "OPTIONS": {},
@@ -700,6 +733,7 @@
             "ACCESS": 1,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Diagnostics",
             "OPTIONS": {},
@@ -782,6 +816,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "GetDefinitions",
             "OPTIONS": {},
@@ -794,6 +829,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "GetSchema",
             "OPTIONS": {},
@@ -809,6 +845,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListCommonTypes",
             "OPTIONS": {},
@@ -837,6 +874,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListRoutes",
             "OPTIONS": {},
@@ -870,6 +908,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListSymbols",
             "OPTIONS": {},
@@ -882,6 +921,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "RuntimePorts",
             "OPTIONS": {},
@@ -932,6 +972,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "AddOrChangeUser",
             "OPTIONS": {},
@@ -1018,30 +1059,64 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "AddSymbol",
             "OPTIONS": {},
             "SCHEMA": {
                 "function": true,
                 "writeValue": {
-                    "allOf": [
-                        {
-                            "$ref": "tchmi:server#/definitions/symbol"
-                        },
-                        {
-                            "properties": {
-                                "AUTOMAP": {
-                                    "description": "Automatically obtain symbol information",
-                                    "type": "boolean"
+                    "properties": {
+                        "ACCESS": {
+                            "allOf": [
+                                {
+                                    "$ref": "tchmi:server#/definitions/accessEnum"
                                 },
-                                "NAME": {
-                                    "description": "Name of the symbol",
-                                    "type": "string"
+                                {
+                                    "default": 3
                                 }
-                            },
+                            ]
+                        },
+                        "AUTOMAP": {
+                            "default": true,
+                            "description": "Automatically obtain symbol information such as options and schema from the domain.",
+                            "type": "boolean"
+                        },
+                        "CUSTOMERDATA": {
+                            "type": "string"
+                        },
+                        "DOMAIN": {
+                            "type": "string"
+                        },
+                        "HIDDEN": {
+                            "default": false,
+                            "type": "boolean"
+                        },
+                        "MAPPING": {
+                            "type": "string"
+                        },
+                        "NAME": {
+                            "description": "Name of the symbol",
+                            "type": "string"
+                        },
+                        "OPTIONS": {
+                            "additionalProperties": {},
                             "type": "object"
+                        },
+                        "SCHEMA": {
+                            "$ref": "tchmi:server#/definitions/schemaRef"
+                        },
+                        "USEMAPPING": {
+                            "default": true,
+                            "type": "boolean"
                         }
-                    ]
+                    },
+                    "required": [
+                        "NAME",
+                        "DOMAIN",
+                        "MAPPING"
+                    ],
+                    "type": "object"
                 }
             },
             "USEMAPPING": true
@@ -1050,6 +1125,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "AddToConfiguration",
             "OPTIONS": {},
@@ -1084,6 +1160,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ChangeUserSettings",
             "OPTIONS": {},
@@ -1136,6 +1213,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ConfirmAlarm",
             "OPTIONS": {},
@@ -1151,6 +1229,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Copy",
             "OPTIONS": {},
@@ -1189,6 +1268,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "CreateEvent",
             "OPTIONS": {},
@@ -1204,6 +1284,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "Config::DEFAULTAUTHEXTENSION",
             "OPTIONS": {},
@@ -1217,6 +1298,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Delete",
             "OPTIONS": {},
@@ -1245,6 +1327,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "DeleteConfiguration",
             "OPTIONS": {},
@@ -1260,6 +1343,7 @@
             "ACCESS": 1,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Diagnostics",
             "OPTIONS": {},
@@ -1454,6 +1538,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ForceLogout",
             "OPTIONS": {},
@@ -1498,6 +1583,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "GetConfiguration",
             "OPTIONS": {},
@@ -1529,6 +1615,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "GetCurrentUser",
             "OPTIONS": {},
@@ -1539,7 +1626,7 @@
                         "type": "boolean"
                     },
                     "autoLogoff": {
-                        "format": "date-time",
+                        "format": "timespan",
                         "type": "string"
                     },
                     "clientCertificate": {
@@ -1590,6 +1677,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "GetDefinitions",
             "OPTIONS": {},
@@ -1626,6 +1714,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "GetSchema",
             "OPTIONS": {},
@@ -1668,6 +1757,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "GetServerInformation",
             "OPTIONS": {},
@@ -1681,6 +1771,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "GetSymbolAccess",
             "OPTIONS": {},
@@ -1703,6 +1794,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Heartbeat",
             "OPTIONS": {},
@@ -1715,6 +1807,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Import",
             "OPTIONS": {},
@@ -1730,6 +1823,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "IsAuthRequired",
             "OPTIONS": {},
@@ -1743,13 +1837,103 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListActiveSessions",
             "OPTIONS": {},
             "SCHEMA": {
                 "function": true,
-                "items": {},
-                "type": "array"
+                "properties": {
+                    "clients": {
+                        "additionalProperties": {
+                            "items": {
+                                "properties": {
+                                    "commands": {
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "symbol": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "id",
+                                                "symbol"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "sessionId": {
+                                        "type": "string"
+                                    },
+                                    "userName": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "commands",
+                                    "sessionId",
+                                    "userName"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "type": "object"
+                    },
+                    "subscriptions": {
+                        "additionalProperties": {
+                            "properties": {
+                                "clientCount": {
+                                    "type": "integer"
+                                },
+                                "commands": {
+                                    "items": {
+                                        "properties": {
+                                            "lastSent": {
+                                                "format": "date-time",
+                                                "type": "string"
+                                            },
+                                            "symbol": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "symbol"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                },
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "intervalTime": {
+                                    "type": "integer"
+                                },
+                                "type": {
+                                    "enum": [
+                                        "Subscription",
+                                        "ReadWrite"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "clientCount",
+                                "type",
+                                "commands"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
             },
             "USEMAPPING": true
         },
@@ -1757,6 +1941,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListConfigurations",
             "OPTIONS": {},
@@ -1773,6 +1958,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListDomains",
             "OPTIONS": {},
@@ -1786,6 +1972,10 @@
                         "configVersion": {
                             "description": "The version of the extension's configuration.",
                             "type": "string"
+                        },
+                        "debuggerAttached": {
+                            "description": "indicates whether a debugger is or will be attached to the extension",
+                            "type": "boolean"
                         },
                         "error": {
                             "$ref": "tchmi:general#/definitions/errorDetails"
@@ -1857,6 +2047,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListEvents",
             "OPTIONS": {},
@@ -1943,6 +2134,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListFiles",
             "OPTIONS": {},
@@ -1996,6 +2188,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListInternalSymbols",
             "OPTIONS": {},
@@ -2009,6 +2202,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListSymbolNames",
             "OPTIONS": {},
@@ -2041,6 +2235,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListSymbols",
             "OPTIONS": {},
@@ -2057,6 +2252,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListUserNames",
             "OPTIONS": {},
@@ -2074,6 +2270,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListUsers",
             "OPTIONS": {},
@@ -2105,6 +2302,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "LocalizeText",
             "OPTIONS": {},
@@ -2149,6 +2347,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Login",
             "OPTIONS": {},
@@ -2178,6 +2377,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Logout",
             "OPTIONS": {},
@@ -2190,6 +2390,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": true,
             "HIDDEN": false,
             "MAPPING": "PLC1::MAIN::NonTrafficLightSymbol",
             "OPTIONS": {},
@@ -2198,10 +2399,31 @@
             },
             "USEMAPPING": true
         },
+        "PLC1.MAIN.TrafficLightHandler": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::MAIN::TrafficLightHandler",
+            "SCHEMA": {
+                "$ref": "tchmi:server#/definitions/PLC1.FB_TrafficLightHandler"
+            },
+            "USEMAPPING": true
+        },
+        "PLC1.MAIN.TrafficLightHandler.Lights": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::MAIN::TrafficLightHandler::Lights",
+            "SCHEMA": {
+                "$ref": "tchmi:server#/definitions/PLC1.ST_TrafficLight"
+            },
+            "USEMAPPING": true
+        },
         "PLC1.MAIN.trafficLight01": {
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": true,
             "HIDDEN": false,
             "MAPPING": "PLC1::MAIN::trafficLight01",
             "OPTIONS": {
@@ -2216,6 +2438,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": true,
             "HIDDEN": false,
             "MAPPING": "PLC1::MAIN::trafficLight02",
             "OPTIONS": {
@@ -2239,6 +2462,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
+            "DYNAMIC": true,
             "HIDDEN": false,
             "MAPPING": "PLC1::MAIN::trafficLight03",
             "OPTIONS": {},
@@ -2256,22 +2480,11 @@
             },
             "USEMAPPING": true
         },
-        "PLC1.MAIN.trafficLight04.GreenLight": {
-            "ACCESS": 3,
-            "CUSTOMERDATA": "",
-            "DOMAIN": "ADS",
-            "HIDDEN": false,
-            "MAPPING": "PLC1::MAIN::trafficLight04::GreenLight",
-            "OPTIONS": {},
-            "SCHEMA": {
-                "$ref": "tchmi:general#/definitions/BOOL"
-            },
-            "USEMAPPING": true
-        },
         "RefreshDefinitions": {
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "RefreshDefinitions",
             "OPTIONS": {},
@@ -2292,6 +2505,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Remove",
             "OPTIONS": {},
@@ -2328,6 +2542,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "RemoveFromConfiguration",
             "OPTIONS": {},
@@ -2362,6 +2577,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "RemoveUnusedDefinitions",
             "OPTIONS": {},
@@ -2374,6 +2590,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "RemoveUser",
             "OPTIONS": {},
@@ -2403,6 +2620,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Rename",
             "OPTIONS": {},
@@ -2441,6 +2659,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "RenameConfiguration",
             "OPTIONS": {},
@@ -2468,6 +2687,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Restart",
             "OPTIONS": {},
@@ -2480,6 +2700,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "SetConfiguration",
             "OPTIONS": {},
@@ -2513,6 +2734,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "SetLocale",
             "OPTIONS": {},
@@ -2529,6 +2751,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Shutdown",
             "OPTIONS": {},
@@ -2541,6 +2764,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "SubscribeEvents",
             "OPTIONS": {},
@@ -2557,6 +2781,7 @@
             "ACCESS": 0,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiLua",
+            "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "Config",
             "OPTIONS": {},
@@ -2567,6 +2792,7 @@
             "ACCESS": 0,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiOpcUa",
+            "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "Config",
             "OPTIONS": {},
@@ -2577,6 +2803,7 @@
             "ACCESS": 1,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiOpcUa",
+            "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "Diagnostics",
             "OPTIONS": {},
@@ -2629,6 +2856,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiOpcUa",
+            "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "GetDefinitions",
             "OPTIONS": {},
@@ -2639,6 +2867,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiOpcUa",
+            "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "GetSchema",
             "OPTIONS": {},
@@ -2651,6 +2880,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiOpcUa",
+            "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "ListSymbols",
             "OPTIONS": {},
@@ -2661,6 +2891,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSqliteLogger",
+            "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "Clear",
             "OPTIONS": {},
@@ -2673,6 +2904,7 @@
             "ACCESS": 0,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSqliteLogger",
+            "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "Config",
             "OPTIONS": {},
@@ -2683,6 +2915,7 @@
             "ACCESS": 1,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSqliteLogger",
+            "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "Diagnostics",
             "OPTIONS": {},
@@ -2827,6 +3060,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSqliteLogger",
+            "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "ListEvents",
             "OPTIONS": {},
@@ -2839,6 +3073,7 @@
             "ACCESS": 0,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Config",
             "OPTIONS": {},
@@ -2849,6 +3084,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiUserManagement",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "AddUser",
             "OPTIONS": {},
@@ -2857,15 +3093,15 @@
                 "writeValue": {
                     "properties": {
                         "enabled": {
-                            "doc": "Indicates if the user can be used or not.",
+                            "description": "Indicates if the user can be used or not.",
                             "type": "boolean"
                         },
                         "password": {
-                            "doc": "Password of the user. Only a hash will be stored.",
+                            "description": "Password of the user. Only a hash will be stored.",
                             "type": "string"
                         },
                         "userName": {
-                            "doc": "Name of the user.",
+                            "description": "Name of the user.",
                             "type": "string"
                         }
                     },
@@ -2882,6 +3118,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiUserManagement",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ChangePassword",
             "OPTIONS": {},
@@ -2905,6 +3142,7 @@
             "ACCESS": 0,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiUserManagement",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Config",
             "OPTIONS": {},
@@ -2915,13 +3153,14 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiUserManagement",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "DisableUser",
             "OPTIONS": {},
             "SCHEMA": {
                 "function": true,
                 "writeValue": {
-                    "doc": "Name of the user.",
+                    "description": "Name of the user.",
                     "type": "string"
                 }
             },
@@ -2931,13 +3170,14 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiUserManagement",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "EnableUser",
             "OPTIONS": {},
             "SCHEMA": {
                 "function": true,
                 "writeValue": {
-                    "doc": "Name of the user.",
+                    "description": "Name of the user.",
                     "type": "string"
                 }
             },
@@ -2947,6 +3187,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiUserManagement",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListDisabledUsers",
             "OPTIONS": {},
@@ -2963,6 +3204,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiUserManagement",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "ListUsers",
             "OPTIONS": {},
@@ -2979,13 +3221,14 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiUserManagement",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "RemoveUser",
             "OPTIONS": {},
             "SCHEMA": {
                 "function": true,
                 "writeValue": {
-                    "doc": "Name of the user.",
+                    "description": "Name of the user.",
                     "type": "string"
                 }
             },
@@ -2995,6 +3238,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiUserManagement",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "RenameUser",
             "OPTIONS": {},
@@ -3003,11 +3247,11 @@
                 "writeValue": {
                     "properties": {
                         "currentUserName": {
-                            "doc": "Current name of the user.",
+                            "description": "Current name of the user.",
                             "type": "string"
                         },
                         "newUserName": {
-                            "doc": "The new name of the user.",
+                            "description": "The new name of the user.",
                             "type": "string"
                         }
                     },
@@ -3024,6 +3268,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Unsubscribe",
             "OPTIONS": {},
@@ -3040,6 +3285,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "UnsubscribeEvents",
             "OPTIONS": {},
@@ -3056,6 +3302,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "UpdateEventsSubscription",
             "OPTIONS": {},
@@ -3072,6 +3319,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "Upload",
             "OPTIONS": {},
@@ -3106,11 +3354,14 @@
                         "fileName": {
                             "description": "Name of the file.",
                             "type": "string"
+                        },
+                        "isDirectory": {
+                            "default": false,
+                            "type": "boolean"
                         }
                     },
                     "required": [
-                        "fileName",
-                        "data"
+                        "fileName"
                     ],
                     "type": "object"
                 }
@@ -3121,6 +3372,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
+            "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "Config::USERSELECTTYPE",
             "OPTIONS": {},
@@ -3174,6 +3426,10 @@
             },
             "SYMBOLACCESS": 0,
             "SYMBOLS": {
+                "ADS.AdsSyncReadDeviceInfoReq": 3,
+                "ADS.AdsSyncReadStateReq": 3,
+                "ADS.CheckLicense": 3,
+                "ADS.Diagnostics": 1,
                 "ChangeUserSettings": 3,
                 "ConfirmAlarm": 3,
                 "CreateEvent": 3,
@@ -3229,12 +3485,12 @@
     "VIDEOSEGMENTSIZE": 1048576,
     "VIRTUALDIRECTORIES": {
         "/": "..\\..\\TcHmiTrafficLight_Dev\\",
-        "/Beckhoff.TwinCAT.HMI.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Controls.12.752.0\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.Functions": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Functions.12.752.0\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Controls.12.754.4\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.Functions": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Functions.12.754.4\\runtimes\\native1.12-tchmi",
         "/ContextMenu": "..\\..\\ContextMenu",
         "/TrafficLight": "..\\..\\TrafficLight",
         "/bin": "..\\..\\TcHmiTrafficLight_Dev\\bin\\",
         "/bin/framework": "..\\..\\TcHmiTrafficLight_Dev\\bin\\framework",
-        "/framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Framework.12.752.0\\runtimes\\native1.12-tchmi"
+        "/framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Framework.12.754.4\\runtimes\\native1.12-tchmi"
     }
 }

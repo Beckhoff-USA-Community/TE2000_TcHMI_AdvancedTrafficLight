@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="FB_TrafficLightHandler" Id="{f67fd037-6f4e-4130-9d91-159c673bd474}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_TrafficLightHandler
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	
+Lights : ST_TrafficLight;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_RequestAllLightOff" Id="{fe5063b3-e218-470d-8cde-843d02c1d4d0}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+METHOD M_RequestAllLightOff : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Lights.GreenLight :=FALSE;
+Lights.YellowLight := FALSE;
+Lights.RedLight := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_RequestAllLightOn" Id="{367ddf6f-94d7-4eb6-94fc-4d7629ee7b7b}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+METHOD M_RequestAllLightOn : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Lights.GreenLight := TRUE;
+Lights.YellowLight := TRUE;
+Lights.RedLight := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_TrafficLightHandler">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TrafficLightHandler.M_RequestAllLightOff">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TrafficLightHandler.M_RequestAllLightOn">
+      <LineId Id="5" Count="2" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

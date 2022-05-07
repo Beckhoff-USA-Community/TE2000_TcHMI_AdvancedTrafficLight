@@ -74,6 +74,24 @@
     },
     "attributes": [
         {
+            "name": "data-tchmi-contextmenu",
+            "propertyName": "ContextMenu",
+            "propertySetterName": "setContextMenu",
+            "propertyGetterName": "getContextMenu",
+            "displayName": "Context Menu",
+            "visible": true,
+            "themeable": "None",
+            "displayPriority": 40,
+            "type": "tchmi:general#/definitions/Boolean",
+            "category": "Common",
+            "description": "Allows the use of a context menu for extra functions",
+            "readOnly": false,
+            "bindable": true,
+            "heritable": true,
+            "defaultValue": false,
+            "defaultValueInternal": false
+        },
+        {
             "name": "data-tchmi-red-oncolor",
             "propertyName": "RedOnColor",
             "propertySetterName": "setRedOnColor",
@@ -199,6 +217,25 @@
             "heritable": true,
             "defaultValue": null,
             "defaultValueInternal": null
+        },
+        {
+            "name": "data-tchmi-lightsHandlerSymbol",
+            "propertyName": "LightsHandlerSymbol",
+            "propertySetterName": "setLightsHandlerSymbol",
+            "propertyGetterName": "getLightsHandlerSymbol",
+            "displayName": "Lights Handler Symbol",
+            "visible": true,
+            "themeable": "None",
+            "displayPriority": 40,
+            "type": "tchmi:framework#/definitions/TcHmi.Controls.TrafficLight.TrafficLightHandler",
+            "category": "Traffic Light",
+            "description": "A symbol of type tchmi:server#/definitions/FB_TrafficLightHandler",
+            "readOnly": false,
+            "bindable": true,
+            "defaultBindingMode": "OneWay",
+            "heritable": true,
+            "defaultValue": null,
+            "defaultValueInternal": null
         }
     ],
     "attributeCategories": [
@@ -209,7 +246,34 @@
             "description": ""
         }
     ],
-    "functions": [],
+    "functions": [
+        {
+            "name": "requestAllLightsOn",
+            "displayName": "Request All Lights On",
+            "visible": true,
+            "description": "Requests all traffic lights to be turned on",
+            "category": "Actions",
+            "params": [],
+            "type": "tchmi:general#/definitions/Boolean",
+            "heritable": false,
+            "searchTerms": [],
+            "waitMode": "Asynchronous",
+            "injectContextObject": true
+        },
+        {
+            "name": "requestAllLightsOff",
+            "displayName": "Request All Lights Off",
+            "visible": true,
+            "description": "Requests all traffic lights to be turned off",
+            "category": "Actions",
+            "params": [],
+            "type": "tchmi:general#/definitions/Boolean",
+            "heritable": false,
+            "searchTerms": [],
+            "waitMode": "Asynchronous",
+            "injectContextObject": true
+        }
+    ],
     "events": [
         {
             "name": ".onError",

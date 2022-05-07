@@ -19,7 +19,7 @@
     <ProjectName>TrafficLight</ProjectName>
     <Name>TrafficLight</Name>
     <HmiInitial>1.12.734.0</HmiInitial>
-    <HmiRecent>1.12.752.0</HmiRecent>
+    <HmiRecent>1.12.754.4</HmiRecent>
     <TcHmi_ContextMenu_IncludedInSolution>True</TcHmi_ContextMenu_IncludedInSolution>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|TwinCAT HMI' ">

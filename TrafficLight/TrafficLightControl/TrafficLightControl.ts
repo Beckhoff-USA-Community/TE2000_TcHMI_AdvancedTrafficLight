@@ -52,6 +52,9 @@ module TcHmi {
                     parameters?: any[] | undefined;
                 }>;
 
+                // flag for context menu use to be allowed on control
+                private __contextMenu                       : boolean = false;
+
                 // Color vars and default values used for initial compiling
                 // If there is no user set value in the VS attribute field, and no value in the control "Description.json" file, these are used
 
@@ -84,6 +87,10 @@ module TcHmi {
                 private __lightsSymbol                      : TcHmi.Symbol | null;
                 private __destroyLightsSymbolWatch          : DestroyFunction | null;
 
+                private __lightsHandlerSymbol               : TcHmi.Symbol | null;
+                private __destroyLightsHandlerSymbolWatch   : DestroyFunction | null;
+
+
                 private __redLightExp                       : string;
                 private __yellowLightExp                    : string;
                 private __greenLightExp                     : string;
@@ -93,7 +100,7 @@ module TcHmi {
                 private __onTouchStartHandler               = this.__onTouchStart();
                 private __onTouchEndOrCancelHandler         = this.__onTouchEndLight();
                 private __onClickHandler                    = this.__onClick();
-                private __contextMenu                       : TcHmi.Controls.ContextMenu.ContextMenuControl | null = null;
+                private __contextMenuControl                       : TcHmi.Controls.ContextMenu.ContextMenuControl | null = null;
 
                 
                 private mouseEvtOptions = {
@@ -217,6 +224,10 @@ module TcHmi {
                         this.__destroyLightsSymbolWatch = this.__lightsSymbol.watch(this.__onLightsSymbolWatch())
                     }
 
+                    if (this.__lightsHandlerSymbol && !this.__destroyLightsHandlerSymbolWatch) {
+                        this.__destroyLightsHandlerSymbolWatch = this.__lightsHandlerSymbol.watch(this.__onLightsSymbolWatch())
+                    }
+
 
                 }
 
@@ -283,6 +294,21 @@ module TcHmi {
                     */
                     return function (data : any) {
                         _this.__processLights(data.value);
+                    }
+                };
+
+                public __onLightsHandlerSymbolWatch() {
+                    var _this = this;
+
+                    /**
+                    * Callback to be returned back into 
+                    * this.__lightsSymbol.watch()
+                    *
+                    * @param {void} 
+                    */
+                    return function (data: any) {
+                        console.log(data);
+                       // _this.__processLightsHandler(data.value);
                     }
                 };
 
@@ -357,9 +383,78 @@ module TcHmi {
 
                 }
 
+                public setLightsHandlerSymbol(valueNew: TcHmi.Symbol) {
+                    devLog('Lights Handler Symbols, setLightsHandlerSymbol:', valueNew);
+                    if (this.__lightsHandlerSymbol !== valueNew) {
+                        if (this.__destroyLightsHandlerSymbolWatch) {
+                            this.__destroyLightsHandlerSymbolWatch();
+                            this.__destroyLightsHandlerSymbolWatch = null;
+                        }
+
+                        if (!(valueNew instanceof TcHmi.Symbol)) {
+
+                            this.__lightsHandlerSymbol = null;
+                            devLog('Lights Handler Symbol was set to a non-symbol');
+                            this.__addErrorOverlay("transparent", "Invalid_Lights_Handler_Symbol", [valueNew]);
+
+
+                            this.__processLights(this.__lightsDefault);
+                        }
+                        else {
+                            devLog('Lights Handler Symbol, check schema:', valueNew);
+
+                            valueNew.resolveSchema(data => {
+                                if (data.error === TcHmi.Errors.NONE) {
+                                    // Handle result value... 
+                                    var schema = data.schema;
+
+                                    // If the bound symbol schema id does not match the required input schema
+                                    if (schema?.id !== "tchmi:server#/definitions/PLC1.FB_TrafficLightHandler"
+                                        &&
+                                        schema?.properties?.Lights.id !== "tchmi:server#/definitions/PLC1.ST_TrafficLight") {
+
+                                        devLog('Lights Handler Symbol, check schema id is not valid!');
+
+                                        this.__removeErrorOverlay();
+
+                                        this.__addErrorOverlay("opaque", "Schema_Mismatch", [valueNew.getExpression().getName()]);
+
+
+                                    }
+
+                                    // Else if it matches, remove the overlay
+                                    else {
+                                        this.__removeErrorOverlay();
+
+                                        this.__lightsHandlerSymbol = valueNew;
+                                        console.log(valueNew);
+
+                                        this.setLightsSymbol(new TcHmi.Symbol('%s%' + this.__lightsHandlerSymbol.getExpression().getName()+'::Lights%/s%'))
+
+                                        this.__destroyLightsHandlerSymbolWatch = this.__lightsHandlerSymbol.watch(this.__onLightsHandlerSymbolWatch());
+                                    }
+
+                                }
+
+                                else {
+                                    // Handle error... failed to resolve schema
+
+                                }
+                            });
+                        }
+
+                    }
+                }
+
+
                 ///// set lights Symbol
                 public setLightsSymbol(valueNew: TcHmi.Symbol) {
                     devLog('Lights Symbols, setLightsSymbol:', valueNew);
+
+
+                    // Add Logic to detect if Lights Handler is bound first
+                    // If bound, validate LightsSymbol to make sure it is a ::Lights property under the Lights Handler symbol
+                    // If not, the LightsSymbol does not match the handler's scope and is invalid
 
                     if (this.__lightsSymbol !== valueNew) {
                         if (this.__destroyLightsSymbolWatch) {
@@ -435,7 +530,31 @@ module TcHmi {
                     return this.__lights;
                 };
 
+                public requestAllLightsOn(ctx: Context) {
+                    if (!this.__lightsHandlerSymbol) {
+                        return;
+                    }
+                    let target: string = this.__lightsHandlerSymbol.getExpression().getName()!;
 
+                    TcHmi.Symbol.readEx2('%s%' + target + '::M_RequestAllLightOn%/s%', function (data) {
+                                    if (data.error) {
+                                        TcHmi.Log.error(TcHmi.Log.buildMessage(data.details))
+                                    }
+                                });
+                }
+
+                public requestAllLightsOff(ctx: Context) {
+                    if (!this.__lightsHandlerSymbol) {
+                        return;
+                    }
+                    let target: string = this.__lightsHandlerSymbol.getExpression().getName()!;
+
+                    TcHmi.Symbol.readEx2('%s%' + target + '::M_RequestAllLightOff%/s%', function (data) {
+                        if (data.error) {
+                            TcHmi.Log.error(TcHmi.Log.buildMessage(data.details))
+                        }
+                    });
+                }
 
 
                 public __onTouchStart() {
@@ -551,7 +670,7 @@ module TcHmi {
 
                 };
 
-                public __onClick() {
+                public __onClick() { 
                     var _this = this;
                     return function (event: MouseEvent) {
                         
@@ -598,25 +717,60 @@ module TcHmi {
                     }
                 };
 
+                public getContextMenu(): boolean {
+                    return this.__contextMenu;
+                }
+
+
+                /**
+                  * Setter function for 'data-tchmi-contextmenu' attribute.
+                  * As defined from the control's Description.json file
+                  * @param {boolean | null} valueNew New value from symbol write or binding update.
+                  * @returns {void}
+                  */
+                public setContextMenu(valueNew: boolean): void {
+
+                    let convertedValue = TcHmi.ValueConverter.toBoolean(valueNew);
+
+                    if (convertedValue === null) {
+                        convertedValue = this.getAttributeDefaultValueInternal<boolean>('ContextMenu') as boolean;
+                    }
+
+                    if (tchmi_equal(convertedValue, this.__contextMenu)) {
+                        return;
+                    }
+
+                    this.__contextMenu = convertedValue;
+
+                    TcHmi.EventProvider.raise(this.__id + '.onPropertyChanged', { propertyName: 'ContextMenu' });
+
+
+                }
+
+
+
                 public __onContextMenu() {
 
                     var _this = this;
                     return function (event: MouseEvent) {
                         devLog('Context menu event: ', event);
                         event.preventDefault();
+                        if (!_this.__contextMenu) {
+                            // context menu is not allowed
+                            return;
+                        }
                         console.log('create context menu');
 
 
-
                         // Handles if ContextMenu is already destroyed
-                        if (_this.__contextMenu && !_this.__contextMenu.getIsDestroyed()) {
+                        if (_this.__contextMenuControl && !_this.__contextMenuControl.getIsDestroyed()) {
                             console.log('create context menu')
-                            _this.__contextMenu.destroy();
-                            _this.__contextMenu = null;
+                            _this.__contextMenuControl.destroy();
+                            _this.__contextMenuControl = null;
                         }
 
 
-                        _this.__contextMenu = TcHmi.ControlFactory.createEx(
+                        _this.__contextMenuControl = TcHmi.ControlFactory.createEx(
                             'TcHmi.Controls.ContextMenu.ContextMenuControl',
                             _this.getId() + '_ContextMenu',
                             {
@@ -630,8 +784,8 @@ module TcHmi {
                             }
                         ) as TcHmi.Controls.ContextMenu.ContextMenuControl;
                         var desktop: TcHmi.Controls.System.TcHmiView = TcHmi.Controls.get('Desktop') as TcHmi.Controls.System.TcHmiView;
-                        if (desktop && _this.__contextMenu) {
-                            desktop.addChild(_this.__contextMenu);
+                        if (desktop && _this.__contextMenuControl) {
+                            desktop.addChild(_this.__contextMenuControl);
                         }
                         
                         if (!_this.__lightsSymbol === null) {
@@ -661,7 +815,7 @@ module TcHmi {
                         console.log("List of traffic light type symbols: ", __AdsList_trafficLightTypes);
 
                         if (__AdsList_trafficLightTypes.length == 0) {
-                            _this.__contextMenu!.__elementList.append(`<li class="context-menu__item">
+                            _this.__contextMenuControl!.__elementList.append(`<li class="context-menu__item">
                                 <a href="#" style = "font-weight:bold;" class="context-menu__link" data-action="error" data-caller=${_this.getId()}>Error: No traffic light types detected.</a>
                             </li>`)
                         };
@@ -670,12 +824,12 @@ module TcHmi {
                                 console.log(element);
 
                                 if (element == lightsSymbolName) {
-                                    _this.__contextMenu!.__elementList.append(`<li class="context-menu__item">
+                                    _this.__contextMenuControl!.__elementList.append(`<li class="context-menu__item">
                                 <a href="#" style = "font-weight:bold;" class="context-menu__link" data-action="binding" data-caller=${_this.getId()}>${element}</a>
                             </li>`)
                                 }
                                 else {
-                                    _this.__contextMenu!.__elementList.append(`<li class="context-menu__item">
+                                    _this.__contextMenuControl!.__elementList.append(`<li class="context-menu__item">
                                 <a href="#" class="context-menu__link" data-action="binding" data-caller=${_this.getId()}>${element}</a>
                             </li>`)
                                 }

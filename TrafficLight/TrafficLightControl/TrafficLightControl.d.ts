@@ -22,6 +22,7 @@ declare module TcHmi {
                     localeKey: string;
                     parameters?: any[] | undefined;
                 }>;
+                private __contextMenu;
                 private __redoncolor;
                 private __yellowoncolor;
                 private __greenoncolor;
@@ -35,6 +36,8 @@ declare module TcHmi {
                 private __touches;
                 private __lightsSymbol;
                 private __destroyLightsSymbolWatch;
+                private __lightsHandlerSymbol;
+                private __destroyLightsHandlerSymbolWatch;
                 private __redLightExp;
                 private __yellowLightExp;
                 private __greenLightExp;
@@ -42,7 +45,7 @@ declare module TcHmi {
                 private __onTouchStartHandler;
                 private __onTouchEndOrCancelHandler;
                 private __onClickHandler;
-                private __contextMenu;
+                private __contextMenuControl;
                 private mouseEvtOptions;
                 private touchEvtOptions;
                 /**
@@ -77,6 +80,7 @@ declare module TcHmi {
                 * @return {function(): void} -
                 */
                 __onLightsSymbolWatch(): (data: any) => void;
+                __onLightsHandlerSymbolWatch(): (data: any) => void;
                 /**
                * Processes the Lights object value
                *
@@ -86,12 +90,23 @@ declare module TcHmi {
                 __processLights(newValue: TcHmi.Controls.TrafficLight.Lights): void;
                 private __removeErrorOverlay;
                 private __addErrorOverlay;
+                setLightsHandlerSymbol(valueNew: TcHmi.Symbol): void;
                 setLightsSymbol(valueNew: TcHmi.Symbol): void;
                 getLightsSymbol(): Symbol<any> | null;
                 getLights(): Lights;
+                requestAllLightsOn(ctx: Context): void;
+                requestAllLightsOff(ctx: Context): void;
                 __onTouchStart(): (event: any) => void;
                 __onTouchEndLight(): (event: TouchEvent) => void;
                 __onClick(): (event: MouseEvent) => void;
+                getContextMenu(): boolean;
+                /**
+                  * Setter function for 'data-tchmi-contextmenu' attribute.
+                  * As defined from the control's Description.json file
+                  * @param {boolean | null} valueNew New value from symbol write or binding update.
+                  * @returns {void}
+                  */
+                setContextMenu(valueNew: boolean): void;
                 __onContextMenu(): (event: MouseEvent) => void;
                 contextMenuOption(optionSelected: TcHmi.Controls.ContextMenu.Option): void;
                 __setSymbol(symbolPath: string): void;
