@@ -1,10 +1,10 @@
-﻿<div id="Desktop" data-tchmi-type="TcHmi.Controls.System.TcHmiView" data-tchmi-top="0" data-tchmi-left="0" data-tchmi-width-mode="Content" data-tchmi-min-width="100" data-tchmi-min-width-unit="%" data-tchmi-height-mode="Content" data-tchmi-min-height="100" data-tchmi-min-height-unit="%" data-tchmi-left-unit="px" data-tchmi-top-unit="px" data-tchmi-width-unit="px" data-tchmi-height-unit="px" data-tchmi-creator-viewport-width="1920" data-tchmi-creator-viewport-height="1080" data-tchmi-right-unit="px" data-tchmi-bottom-unit="px">
+<div id="Desktop" data-tchmi-type="TcHmi.Controls.System.TcHmiView" data-tchmi-top="0" data-tchmi-left="0" data-tchmi-width-mode="Content" data-tchmi-min-width="100" data-tchmi-min-width-unit="%" data-tchmi-height-mode="Content" data-tchmi-min-height="100" data-tchmi-min-height-unit="%" data-tchmi-left-unit="px" data-tchmi-top-unit="px" data-tchmi-width-unit="px" data-tchmi-height-unit="px" data-tchmi-creator-viewport-width="1920" data-tchmi-creator-viewport-height="1080" data-tchmi-right-unit="px" data-tchmi-bottom-unit="px">
   <div id="ViewDesktopBeckhoffLogo" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiImage" data-tchmi-src="Images/Beckhoff_Logo.svg" data-tchmi-left="20" data-tchmi-top="20" data-tchmi-width="194" data-tchmi-height="57" data-tchmi-left-unit="px" data-tchmi-top-unit="px" data-tchmi-width-unit="px" data-tchmi-height-unit="px">
 
   
 
 </div>
-<div id="TcHmi_Controls_TrafficLight_TrafficLightControl" data-tchmi-type="TcHmi.Controls.TrafficLight.TrafficLightControl" data-tchmi-height="180" data-tchmi-height-unit="px" data-tchmi-left="284" data-tchmi-left-unit="px" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="180" data-tchmi-width-unit="px" data-tchmi-right-unit="px" data-tchmi-bottom-unit="px" data-tchmi-lightssymbol="%s%PLC1.MAIN.NonTrafficLightSymbol%/s%" data-tchmi-contextmenu="true">
+<div id="TcHmi_Controls_TrafficLight_TrafficLightControl" data-tchmi-type="TcHmi.Controls.TrafficLight.TrafficLightControl" data-tchmi-height="180" data-tchmi-height-unit="px" data-tchmi-left="344" data-tchmi-left-unit="px" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="190" data-tchmi-width-unit="px" data-tchmi-right-unit="px" data-tchmi-bottom-unit="px" data-tchmi-lightssymbol="%s%PLC1.MAIN.NonTrafficLightSymbol%/s%" data-tchmi-contextmenu="true">
 
 
 <script data-tchmi-target-attribute="data-tchmi-red-oncolor" type="application/json">
@@ -14,7 +14,7 @@
 </script>
 </div>
 
-<div id="TcHmi_Controls_TrafficLight_TrafficLightControl_1" data-tchmi-type="TcHmi.Controls.TrafficLight.TrafficLightControl" data-tchmi-height="180" data-tchmi-height-unit="px" data-tchmi-left="284" data-tchmi-left-unit="px" data-tchmi-top="324" data-tchmi-top-unit="px" data-tchmi-width="180" data-tchmi-width-unit="px" data-tchmi-right-unit="px" data-tchmi-bottom-unit="px" data-tchmi-is-enabled="true">
+<div id="TcHmi_Controls_TrafficLight_TrafficLightControl_1" data-tchmi-type="TcHmi.Controls.TrafficLight.TrafficLightControl" data-tchmi-height="180" data-tchmi-height-unit="px" data-tchmi-left="344" data-tchmi-left-unit="px" data-tchmi-top="299" data-tchmi-top-unit="px" data-tchmi-width="190" data-tchmi-width-unit="px" data-tchmi-right-unit="px" data-tchmi-bottom-unit="px" data-tchmi-is-enabled="true">
 
 
 <script data-tchmi-target-attribute="data-tchmi-red-oncolor" type="application/json">
@@ -24,30 +24,21 @@
 </script>
 </div>
 
-<div id="TcHmiTextblock" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="400" data-tchmi-height-unit="px" data-tchmi-left="20" data-tchmi-left-unit="px" data-tchmi-text="The framework control &quot;TrafficLightControl&quot; has only a traffic light symbol attribute, and on/off colors. The control also has context menu listeners. \n \nRight-clicking the traffic light will popup a context menu to show all possible ADS symbols it can be bound to. If it currently is bound, it will display in bold the address. \n \nThe CodeBehind file &quot;CacheAdsSymbols&quot; will parse all symbols from the MAIN POU and list any ST_TrafficLight DUTs as possible bindings. \n \nThis displays all symbols, even if they are not mapped. If the symbol is not mapped, selecting the target address to bind to will map it within TcHmi." data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="254" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-font-size="14">
+<div id="TcHmiTextblock" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="288" data-tchmi-height-unit="px" data-tchmi-left="20" data-tchmi-left-unit="px" data-tchmi-text="The framework control &quot;TrafficLightControl&quot; references an ST_TrafficLight type, on/off colors, and the option to use a custom context menu. \n \nRight-clicking the traffic light will popup a context menu to show all possible ADS symbols that match the ST_TrafficLight DUT. If it currently is bound, it will display in bold the address. \n \nThe CodeBehind file &quot;CacheAdsSymbols&quot; will parse all symbols from the MAIN POU and list any ST_TrafficLight DUTs as possible bindings. \n \nIf the symbol is not mapped, selecting the target address to bind to will map it within TcHmi." data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="314" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-font-size="14">
 
 </div>
 
-<div id="TcHmiTextblock_1" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="114" data-tchmi-height-unit="px" data-tchmi-left="20" data-tchmi-left-unit="px" data-tchmi-text="The traffic light control also include touch logic for tapping the lights on and off. Within the logic is also a touch lock that prevents accidental fast touching" data-tchmi-top="514" data-tchmi-top-unit="px" data-tchmi-width="254" data-tchmi-width-unit="px" data-tchmi-word-wrap="True">
+<div id="TcHmiTextblock_1" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="69" data-tchmi-height-unit="px" data-tchmi-left="20" data-tchmi-left-unit="px" data-tchmi-text="The traffic light control also include touch logic for tapping the lights on and off. Within the logic is also a touch lock that prevents accidental fast touching" data-tchmi-top="410" data-tchmi-top-unit="px" data-tchmi-width="314" data-tchmi-width-unit="px" data-tchmi-word-wrap="True">
 
 </div>
-<div id="TcHmiLocalizationSelect" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiLocalizationSelect" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="474" data-tchmi-left-unit="px" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="264" data-tchmi-width-unit="px" data-tchmi-is-enabled="true">
-<script data-tchmi-target-attribute="data-tchmi-localization-mapping" type="application/json">
-[{"code":"de-DE","text":"German (Germany)"},{"code":"en-US","text":"English (United States)"}]
-</script>
-<script data-tchmi-target-attribute="data-tchmi-content-padding" type="application/json">
-{"top":3,"right":3,"bottom":3,"left":3}
-</script>
-
-</div>
-<div id="Managed_TrafficLight" data-tchmi-type="TcHmi.Controls.TrafficLight.TrafficLightControl" data-tchmi-height="180" data-tchmi-height-unit="px" data-tchmi-left="499" data-tchmi-left-unit="px" data-tchmi-top="324" data-tchmi-top-unit="px" data-tchmi-width="180" data-tchmi-width-unit="px" data-tchmi-right-unit="px" data-tchmi-bottom-unit="px" data-tchmi-is-enabled="true" data-tchmi-lightshandlersymbol="%s%PLC1.MAIN.TrafficLightHandler%/s%">
+<div id="Managed_TrafficLight" data-tchmi-type="TcHmi.Controls.TrafficLight.TrafficLightControl" data-tchmi-height="180" data-tchmi-height-unit="px" data-tchmi-left="708" data-tchmi-left-unit="px" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="180" data-tchmi-width-unit="px" data-tchmi-right-unit="px" data-tchmi-bottom-unit="px" data-tchmi-is-enabled="true" data-tchmi-lightshandlersymbol="%s%PLC1.MAIN.TrafficLightHandler%/s%">
 <script data-tchmi-target-attribute="data-tchmi-red-oncolor" type="application/json">
 {
   "color": "rgba(255, 74, 74, 1)"
 }
 </script>
 </div>
-<div id="TcHmiButton" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="694" data-tchmi-left-unit="px" data-tchmi-text="Call Lights On Method" data-tchmi-top="324" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true">
+<div id="TcHmiButton" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="903" data-tchmi-left-unit="px" data-tchmi-text="Call Lights On Method" data-tchmi-top="169" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true">
 
 <script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
 [
@@ -66,7 +57,7 @@
 ]
 </script>
 </div>
-<div id="TcHmiButton_1" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="694" data-tchmi-left-unit="px" data-tchmi-text="Call Lights Off Method" data-tchmi-top="400" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true">
+<div id="TcHmiButton_1" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="903" data-tchmi-left-unit="px" data-tchmi-text="Call Lights Off Method" data-tchmi-top="234" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true">
 
 <script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
 [
@@ -84,5 +75,11 @@
   }
 ]
 </script>
+</div>
+<div id="TcHmiTextblock_2" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="65" data-tchmi-height-unit="px" data-tchmi-left="534" data-tchmi-left-unit="px" data-tchmi-text="Has Context\nStarts with wrong datatype" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="136" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-text-horizontal-alignment="Center" data-tchmi-text-vertical-alignment="Center">
+</div>
+<div id="TcHmiTextblock_3" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="42" data-tchmi-height-unit="px" data-tchmi-left="534" data-tchmi-left-unit="px" data-tchmi-text="No Context Menu\nHas Error" data-tchmi-top="299" data-tchmi-top-unit="px" data-tchmi-width="136" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-text-horizontal-alignment="Center" data-tchmi-text-vertical-alignment="Center">
+</div>
+<div id="TcHmiTextblock_4" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="48" data-tchmi-height-unit="px" data-tchmi-left="903" data-tchmi-left-unit="px" data-tchmi-text="No Context Menu\nExternal Control" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-text-horizontal-alignment="Center" data-tchmi-text-vertical-alignment="Center">
 </div>
 </div>

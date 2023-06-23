@@ -1,5 +1,5 @@
-﻿{
-  "$schema": "./../../Packages/Beckhoff.TwinCAT.HMI.Framework.12.754.4/runtimes/native1.12-tchmi/Schema/TchmiConfig.Schema.json",
+{
+  "$schema": "./../../Packages/Beckhoff.TwinCAT.HMI.Framework.12.760.42/runtimes/native1.12-tchmi/Schema/TchmiConfig.Schema.json",
   "basePath": "./framework",
   "scaleMode": "None",
   "startupView": "Desktop.view",
@@ -25,7 +25,8 @@
           "type": "Stylesheet"
         }
       ],
-      "replacesThemeForControls": []
+      "replacesThemeForControls": [],
+      "replacesThemeForPackageComponents": []
     }
   },
   "dependencyFiles": [
@@ -73,7 +74,8 @@
         "persist": false,
         "readonly": false
       }
-    }
+    },
+    "themedResources": {}
   },
   "trigger": [],
   "actionTemplates": [],
@@ -94,6 +96,14 @@
   },
   "packages": [
     {
+      "name": "ContextMenu",
+      "basePath": "/ContextMenu"
+    },
+    {
+      "name": "TrafficLight",
+      "basePath": "/TrafficLight"
+    },
+    {
       "name": "Beckhoff.TwinCAT.HMI.Controls",
       "basePath": "/Beckhoff.TwinCAT.HMI.Controls"
     },
@@ -104,14 +114,6 @@
     {
       "name": "Beckhoff.TwinCAT.HMI.Functions",
       "basePath": "/Beckhoff.TwinCAT.HMI.Functions"
-    },
-    {
-      "name": "ContextMenu",
-      "basePath": "/ContextMenu"
-    },
-    {
-      "name": "TrafficLight",
-      "basePath": "/TrafficLight"
     }
   ],
   "keyboardLayouts": [
@@ -121,5 +123,12 @@
     {
       "url": "KeyboardLayouts/US - compact.keyboard.json"
     }
-  ]
+  ],
+  "systemKeyboard": {
+    "providerName": "",
+    "projectKeyboardMapping": {}
+  },
+  "systemPopups": {
+    "providerName": "Beckhoff.TcHmiPopups"
+  }
 }

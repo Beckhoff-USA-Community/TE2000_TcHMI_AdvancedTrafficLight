@@ -125,7 +125,7 @@ var TcHmi;
                             // In this sample code, the Traffic Light has a contentMenuOption function which runs based on the passed in option
                             _callerRef.contextMenuOption(option);
                             // Remove the context menu reference
-                            _callerRef.__contextMenu = null;
+                            _callerRef.__contextMenuControl = null;
                             // Destroy the context menu (close popup)
                             _this.destroy();
                         }

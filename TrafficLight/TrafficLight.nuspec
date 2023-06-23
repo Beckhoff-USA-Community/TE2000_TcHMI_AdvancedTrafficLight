@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <package xmlns="">
   <metadata>
     <id>TrafficLight</id>
@@ -17,6 +17,7 @@
     <dependencies>
       <group targetFramework="native1.12-tchmi">
         <dependency id="ContextMenu" version="1.0.91" />
+        <dependency id="Beckhoff.TwinCAT.HMI.Framework" version="12.760.42" />
       </group>
     </dependencies>
   </metadata>

@@ -1,8 +1,8 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <package xmlns="">
   <metadata>
     <id>ContextMenu</id>
-    <version>1.0.9</version>
+    <version>1.0.91</version>
     <description>Genric context menu for use with other TcHmiControls. Sample provides data binding command</description>
     <authors>Beckhoff-USA</authors>
     <title>ContextMenu</title>
@@ -15,7 +15,9 @@
     <license type="file">License.txt</license>
     <icon>images/logo.png</icon>
     <dependencies>
-      <group targetFramework="native1.12-tchmi" />
+      <group targetFramework="native1.12-tchmi">
+        <dependency id="Beckhoff.TwinCAT.HMI.Framework" version="12.760.42" />
+      </group>
     </dependencies>
   </metadata>
   <files>
